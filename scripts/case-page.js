@@ -9,7 +9,9 @@
       <path d="M15.2804 1.28033C15.5732 0.987437 15.5732 0.512563 15.2804 0.21967C14.9875 -0.0732233 14.5126 -0.0732233 14.2197 0.21967L7.75001 6.68935L1.28033 0.219673C0.987437 -0.0732203 0.512563 -0.0732203 0.21967 0.219673C-0.0732233 0.512566 -0.0732233 0.98744 0.21967 1.28033L6.68935 7.75001L0.219697 14.2197C-0.0731964 14.5126 -0.0731964 14.9874 0.219697 15.2803C0.51259 15.5732 0.987464 15.5732 1.28036 15.2803L7.75001 8.81067L14.2197 15.2803C14.5126 15.5732 14.9874 15.5732 15.2803 15.2803C15.5732 14.9874 15.5732 14.5126 15.2803 14.2197L8.81067 7.75002L15.2804 1.28033Z" fill="currentColor" />
     </svg>
   `;
-  const card = (title, text, cls = "") => `<article class="figma-card ${cls}"><h3>${title}</h3><p>${text}</p></article>`;
+  const card = (title, text, cls = "") => `<article class="info-card ${cls}"><h3>${title}</h3><p>${text}</p></article>`;
+  const infoCard = (title, text) => card(title, text);
+  const infoList = (title, items) => infoCard(title, items.join("<br />"));
   const chip = (text) => `<span class="chip">${text}</span>`;
   const toolChip = ([name, icon]) => `
     <span class="tool-chip">
@@ -103,6 +105,8 @@
           </article>
         </section>
 
+        <div class="case-video"><iframe src="https://kinescope.io/embed/vMXTz8tCwQ9igs77uiyvKn" title="Видео о сервисе подарочных карт" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" frameborder="0" allowfullscreen width="1920" height="1080" loading="lazy"></iframe></div>
+
         <section class="section-block project-summary">
           <h2>Краткое описание проекта</h2>
           <div class="two-columns">
@@ -193,7 +197,7 @@
           <div class="insight-grid">
             ${card("Пользователь покупает не карту, а подарок", "Поэтому важно дать возможность выбрать дизайн, добавить поздравление, указать получателя и выбрать время отправки")}
             ${card("Электронная и пластиковая карты решают разные задачи", "Электронная карта нужна для быстрой отправки. Пластиковая — для физического подарка, доставки и покупки нескольких карт")}
-            ${card("Ошибки перед отправкой подарка особенно критичны", "Ошибка в телефоне, email или тексте поздравления критична, потому что подарок уйдет другому человеку.", "figma-card--tall")}
+            ${card("Ошибки перед отправкой подарка особенно критичны", "Ошибка в телефоне, email или тексте поздравления критична, потому что подарок уйдет другому человеку.", "info-card--tall")}
             ${card("После покупки пользователю всё ещё нужен сервис", "Он должен видеть баланс, срок действия, QR-код, архив и операции")}
             ${card("Для бизнеса важен контроль", "Собственный сервис позволяет управлять выпуском, оплатой, уведомлениями и учетом операций внутри инфраструктуры сайта")}
           </div>
@@ -340,8 +344,8 @@
         <section class="section-block">
           <h2>Итоги</h2>
           <div class="triple-grid">
-            ${card("До", "Подарочные карты работали как витрина с базовой покупкой. Пользователь мог выбрать карту и номинал, но не получал полноценного сценария подарка и управления картой после покупки.", "figma-card--tall")}
-            ${card("После", "Появился полноценный сервис: электронные и пластиковые карты, сценарий подарка, доставка, оплата, личный кабинет, баланс, QR-код, архив, операции и статусы заказов.", "figma-card--tall")}
+            ${infoCard("До", "Подарочные карты работали как витрина с базовой покупкой. Пользователь мог выбрать карту и номинал, но не получал полноценного сценария подарка и управления картой после покупки.")}
+            ${infoCard("После", "Появился полноценный сервис: электронные и пластиковые карты, сценарий подарка, доставка, оплата, личный кабинет, баланс, QR-код, архив, операции и статусы заказов.")}
             <article class="gradient-card gradient-card--result"><h3>Результат</h3><p>Сервис был запущен на сайте «Цветного». Он объединил покупку, дарение, доставку, оплату и управление подарочными картами после покупки.</p></article>
           </div>
         </section>
@@ -350,20 +354,20 @@
           <h2>Рефлексия</h2>
           <p class="section-text">Этот проект был ценен тем, что я работал не с отдельным экраном, а с полноценным сервисом: выбор карты, конфигуратор, оформление заказа, доставка, личный кабинет, операции и статусы.</p>
           <div class="triple-grid reflection-grid">
-            <article class="info-card"><h2>Что получилось хорошо</h2><ul>${["удалось собрать разные сценарии в единую структуру;", "электронная карта стала более персонализированной;", "пластиковая карта получила отдельную логику заказа;", "личный кабинет стал продолжением сервиса после покупки;", "макеты были подготовлены для разработки."].map(bullet).join("")}</ul></article>
-            <article class="info-card"><h2>Что можно было сделать лучше</h2><ul>${["провести полноценные пользовательские тесты до разработки;", "заложить отдельный этап дизайн-ревью после реализации;", "собрать метрики после запуска;", "проверить, на каких шагах пользователи чаще ошибаются или возвращаются назад;", "доработать визуальные детали после запуска."].map(bullet).join("")}</ul></article>
-            <article class="gradient-card gradient-card--result gradient-card--animated"><h3>Главный вывод</h3><p>Для продуктового дизайна важно проектировать не только момент покупки, но и весь жизненный цикл продукта. В случае подарочной карты это не только номинал и дизайн, но и момент вручения, получение, использование, баланс, история операций и доверие к сервису.</p></article>
+            ${infoList("Что получилось хорошо", ["удалось собрать разные сценарии в единую структуру;", "электронная карта стала более персонализированной;", "пластиковая карта получила отдельную логику заказа;", "личный кабинет стал продолжением сервиса после покупки;", "макеты были подготовлены для разработки."])}
+            ${infoList("Что можно было сделать лучше", ["провести полноценные пользовательские тесты до разработки;", "заложить отдельный этап дизайн-ревью после реализации;", "собрать метрики после запуска;", "проверить, на каких шагах пользователи чаще ошибаются или возвращаются назад;", "доработать визуальные детали после запуска."])}
+            <article class="gradient-card gradient-card--result"><h3>Главный вывод</h3><p>Для продуктового дизайна важно проектировать не только момент покупки, но и весь жизненный цикл продукта. В случае подарочной карты это не только номинал и дизайн, но и момент вручения, получение, использование, баланс, история операций и доверие к сервису.</p></article>
           </div>
         </section>
 
         <section class="section-block future">
           <h2>Future vision</h2>
           <p class="section-text">После запуска основной версии сервиса я дополнительно проработал идеи, которые могут усилить подарочный опыт.</p>
-          <h3>3D-поздравление</h3><p class="section-text">Получатель электронной карты может открыть короткую анимированную сцену с поздравлением.</p><div class="future-placeholder"></div>
-          <h3>AR-сценарий для физической карты</h3><p class="section-text">Пользователь наводит камеру на пластиковую карту и видит цифровую анимацию, связанную с её дизайном.</p><div class="future-placeholder"></div>
-          <h3>Мини-игра «Лови скидки»</h3><p class="section-text">Игровая механика может вовлекать пользователей в бренд и выдавать промокоды через лидерборд.</p><div class="future-placeholder"></div>
+          <h3>3D-поздравление</h3><p class="section-text">Получатель электронной карты может открыть короткую анимированную сцену с поздравлением.</p><div class="future-video"><iframe src="https://kinescope.io/embed/rWUg9mixLE1rW34gAsECrj" title="3D-поздравление" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" frameborder="0" allowfullscreen width="1920" height="1080" loading="lazy"></iframe></div>
+          <h3>AR-сценарий для физической карты</h3><p class="section-text">Пользователь наводит камеру на пластиковую карту и видит цифровую анимацию, связанную с её дизайном.</p><div class="future-video"><iframe src="https://kinescope.io/embed/qSYMgidAM61i1eGemU8424" title="AR-сценарий для физической карты" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" frameborder="0" allowfullscreen width="1920" height="1080" loading="lazy"></iframe></div>
+          <h3>Мини-игра «Лови скидки»</h3><p class="section-text">Игровая механика может вовлекать пользователей в бренд и выдавать промокоды через лидерборд.</p><div class="future-video"><iframe src="https://kinescope.io/embed/jcEW1nVT5Di7j8CYRzxdCF" title="Мини-игра Лови скидки" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" frameborder="0" allowfullscreen width="1920" height="1080" loading="lazy"></iframe></div>
           <h3>Сезонные дизайны карт</h3><p class="section-text">Коллекции карт можно развивать под праздники, события и персональные поводы</p>
-          <div class="future-image">${img("future-cards.png", "Сезонные дизайны карт")}</div>
+          <div class="future-image">${img("future-seasonal-designs.png", "Сезонные дизайны карт")}</div>
           <p class="section-text">Эти идеи не входили в запущенную версию, поэтому в кейсе они показаны как направление дальнейшего развития продукта</p>
         </section>
       </div>
@@ -371,11 +375,22 @@
 
     <footer id="contacts" class="site-footer">
       <div class="site-footer__top">
-        <div><p>© 2025 Eldar Galiamov</p><a class="pill pill--light" href="mailto:eldargaliamov19@gmail.com">Обсудить проект</a></div>
-        <nav><a href="../index.html">Главная</a><a href="./tsvetnoy-gift-cards.html">Проекты</a><a href="../index.html#services">Услуги</a><a href="../index.html#about">Обо мне</a></nav>
-        <div class="footer-contact"><a href="mailto:eldargaliamov19@gmail.com">eldargaliamov19@gmail.com</a><a href="#">Dprofile ↗</a><a href="#">Behance ↗</a><a href="#">Telegram ↗</a><a href="#">Youtube ↗</a></div>
+        <div class="site-footer__copyright">
+          <p>© 2025 Eldar Galiamov</p>
+          <a class="site-footer__button pill pill--light" href="https://t.me/eldarglmv" target="_blank" rel="noreferrer">Telegram</a>
+        </div>
+        <div class="footer-contact">
+          <div class="footer-contact__main">
+            <p>@eldarglmv</p>
+            <a href="mailto:eldargaliamov19@gmail.com">eldargaliamov19@gmail.com</a>
+          </div>
+          <nav class="footer-contact__links" aria-label="Социальные ссылки">
+            <a href="#">Behance <span aria-hidden="true">↗</span></a>
+            <a href="https://t.me/eldarglmv" target="_blank" rel="noreferrer">Telegram <span aria-hidden="true">↗</span></a>
+          </nav>
+        </div>
       </div>
-      ${img("footer-mark.png", "Eldar.GLMV", "footer-mark")}
+      ${img("home-footer-mark.svg", "Eldar.GLMV", "footer-mark")}
     </footer>
   `;
 
@@ -406,7 +421,6 @@
       ".section-block",
       ".solution-block",
       ".info-card",
-      ".figma-card",
       ".gradient-card",
       ".competitor-card",
       ".flow-panel",
@@ -416,7 +430,8 @@
       ".chip",
       ".tool-chip",
       ".handoff-row",
-      ".future-placeholder",
+      ".case-video",
+      ".future-video",
       ".future-image",
       ".site-footer__top > *",
       ".footer-mark",
@@ -426,7 +441,7 @@
     revealItems.forEach((item, index) => {
       item.classList.add("motion-reveal");
       item.style.setProperty("--reveal-delay", `${Math.min((index % 6) * 45, 225)}ms`);
-      if (item.matches(".hero-visual, .big-panel, .flow-panel, .old-solution, .future-image")) {
+      if (item.matches(".hero-visual, .big-panel, .flow-panel, .old-solution, .case-video, .future-video, .future-image")) {
         item.classList.add("motion-reveal--image");
       }
       if (item.matches(".chip, .tool-chip, .stage-row span")) {
