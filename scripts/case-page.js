@@ -73,8 +73,6 @@
     </header>
 
     <main class="case-page">
-      <a class="back-link" href="../index.html"><span aria-hidden="true">←</span><span>На главную</span></a>
-
       <section class="project-hero">
         <div class="project-hero__copy">
           <div>
