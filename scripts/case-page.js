@@ -1,9 +1,14 @@
-(function () {
+﻿(function () {
   const root = document.querySelector("#case-root");
   if (!root) return;
 
   const A = "../assets/figma/";
   const img = (name, alt = "", cls = "") => `<img class="${cls}" src="${A}${name}" alt="${alt}" loading="lazy" />`;
+  const closeIcon = () => `
+    <svg class="home-header__close-icon" viewBox="0 0 15.5 15.5" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M15.2804 1.28033C15.5732 0.987437 15.5732 0.512563 15.2804 0.21967C14.9875 -0.0732233 14.5126 -0.0732233 14.2197 0.21967L7.75001 6.68935L1.28033 0.219673C0.987437 -0.0732203 0.512563 -0.0732203 0.21967 0.219673C-0.0732233 0.512566 -0.0732233 0.98744 0.21967 1.28033L6.68935 7.75001L0.219697 14.2197C-0.0731964 14.5126 -0.0731964 14.9874 0.219697 15.2803C0.51259 15.5732 0.987464 15.5732 1.28036 15.2803L7.75001 8.81067L14.2197 15.2803C14.5126 15.5732 14.9874 15.5732 15.2803 15.2803C15.5732 14.9874 15.5732 14.5126 15.2803 14.2197L8.81067 7.75002L15.2804 1.28033Z" fill="currentColor" />
+    </svg>
+  `;
   const card = (title, text, cls = "") => `<article class="figma-card ${cls}"><h3>${title}</h3><p>${text}</p></article>`;
   const chip = (text) => `<span class="chip">${text}</span>`;
   const toolChip = ([name, icon]) => `
@@ -50,19 +55,21 @@
   ];
 
   root.innerHTML = `
-    <header class="site-header">
-      <a class="brand" href="../index.html" aria-label="Eldar Galiamov">
-        ${img("logo.png", "", "brand__logo")}
-        <span>Eldar Galiamov</span>
+    <header class="home-header home-header--case" aria-label="Основная навигация">
+      <div class="home-header__panel">
+        <a class="home-header__brand" href="../index.html" aria-label="Eldar Galiamov">
+          <span class="home-header__avatar">${img("home-logo.png", "", "home-header__avatar-img")}</span>
+          <span>Eldar Galiamov</span>
+        </a>
+        <nav class="home-header__nav">
+          <a href="../index.html#resume">Резюме</a>
+          <a href="../index.html#cv">CV</a>
+          <a class="ui-button ui-button--m ui-button--black" href="https://t.me/eldarglmv" target="_blank" rel="noreferrer">Telegram</a>
+        </nav>
+      </div>
+      <a class="home-header__close" href="../index.html" aria-label="Закрыть кейс">
+        <span class="home-header__close-button">${closeIcon()}</span>
       </a>
-      <nav class="site-nav" aria-label="Основная навигация">
-        <a href="../index.html">Главная</a>
-        <a href="./tsvetnoy-gift-cards.html" aria-current="page">Проекты</a>
-        <a href="../index.html#services">Услуги</a>
-        <a href="../index.html#about">Обо мне</a>
-        <a href="#contacts">Контакты</a>
-        <a class="pill pill--dark" href="mailto:eldargaliamov19@gmail.com">Обсудить проект</a>
-      </nav>
     </header>
 
     <main class="case-page">
@@ -78,10 +85,6 @@
         </div>
         <div class="hero-visual">
           ${img("hero-bg.png", "", "hero-visual__bg")}
-          <div class="hero-visual__ui">
-            ${img("hero-ui.png", "", "hero-visual__screen")}
-            ${img("hero-overlay.png", "", "hero-visual__overlay")}
-          </div>
         </div>
       </section>
 
@@ -389,7 +392,7 @@
       ((navigator.deviceMemory !== undefined && navigator.deviceMemory <= 2) ||
         (navigator.deviceMemory === undefined && navigator.hardwareConcurrency <= 4));
     const shouldAnimate = !reduceMotion && !lowEndDevice;
-    const header = scope.querySelector(".site-header");
+    const header = scope.querySelector(".home-header");
 
     const updateHeader = () => {
       if (!header) return;
@@ -549,3 +552,4 @@
     });
   }
 })();
+
