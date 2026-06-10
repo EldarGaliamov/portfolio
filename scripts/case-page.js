@@ -63,7 +63,6 @@
         </a>
         <nav class="home-header__nav">
           <a href="../assets/Files/Галямов Эльдар Резюме.pdf" target="_blank" rel="noopener noreferrer">Резюме</a>
-          <a href="../index.html#cv">CV</a>
           <a class="ui-button ui-button--m ui-button--black" href="https://t.me/eldarglmv" target="_blank" rel="noreferrer">Telegram</a>
         </nav>
       </div>
