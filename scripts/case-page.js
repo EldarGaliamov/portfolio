@@ -59,16 +59,16 @@
   root.innerHTML = `
     <header class="home-header home-header--case" aria-label="Основная навигация">
       <div class="home-header__panel">
-        <a class="home-header__brand" href="../index.html" aria-label="Eldar Galiamov">
+        <a class="home-header__brand" href="../index.html" target="_blank" rel="noopener noreferrer" aria-label="Eldar Galiamov">
           <span class="home-header__avatar">${img("home-logo.png", "", "home-header__avatar-img")}</span>
           <span>Eldar Galiamov</span>
         </a>
         <nav class="home-header__nav">
           <a href="../assets/Files/Галямов Эльдар Резюме.pdf" target="_blank" rel="noopener noreferrer">Резюме</a>
-          <a class="ui-button ui-button--m ui-button--black" href="https://t.me/eldarglmv" target="_blank" rel="noreferrer">Telegram</a>
+          <a class="ui-button ui-button--m ui-button--black" href="https://t.me/eldarglmv" target="_blank" rel="noopener noreferrer">Telegram</a>
         </nav>
       </div>
-      <a class="home-header__close" href="../index.html" aria-label="Закрыть кейс">
+      <a class="home-header__close" href="../index.html" target="_blank" rel="noopener noreferrer" aria-label="Закрыть кейс">
         <span class="home-header__close-button">${closeIcon()}</span>
       </a>
     </header>
@@ -377,16 +377,16 @@
       <div class="site-footer__top">
         <div class="site-footer__copyright">
           <p>© 2025 Eldar Galiamov</p>
-          <a class="site-footer__button pill pill--light" href="https://t.me/eldarglmv" target="_blank" rel="noreferrer">Telegram</a>
+          <a class="site-footer__button pill pill--light" href="https://t.me/eldarglmv" target="_blank" rel="noopener noreferrer">Telegram</a>
         </div>
         <div class="footer-contact">
           <div class="footer-contact__main">
             <p>@eldarglmv</p>
-            <a href="mailto:eldargaliamov19@gmail.com">eldargaliamov19@gmail.com</a>
+            <a href="mailto:eldargaliamov19@gmail.com" target="_blank" rel="noopener noreferrer">eldargaliamov19@gmail.com</a>
           </div>
           <nav class="footer-contact__links" aria-label="Социальные ссылки">
-            <a href="#">Behance <span aria-hidden="true">↗</span></a>
-            <a href="https://t.me/eldarglmv" target="_blank" rel="noreferrer">Telegram <span aria-hidden="true">↗</span></a>
+            <a href="#" target="_blank" rel="noopener noreferrer">Behance <span aria-hidden="true">↗</span></a>
+            <a href="https://t.me/eldarglmv" target="_blank" rel="noopener noreferrer">Telegram <span aria-hidden="true">↗</span></a>
           </nav>
         </div>
       </div>
