@@ -677,6 +677,12 @@ li {
   line-height: 1;
 }
 
+.home-projects__list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .home-case-card {
   position: relative;
   display: block;
@@ -697,6 +703,13 @@ li {
   max-width: none;
   height: 245.19%;
   object-fit: cover;
+}
+
+.home-case-card--image-bg .home-case-card__bg {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
 }
 
 .home-case-card__visual {
@@ -738,6 +751,7 @@ li {
 
 .home-case-card__title,
 .home-case-card__year,
+.home-case-card__description,
 .home-case-card__button {
   position: absolute;
   z-index: 2;
@@ -768,6 +782,33 @@ li {
   font-size: 24px;
   font-weight: 400;
   line-height: 32px;
+}
+
+.home-case-card__description {
+  bottom: 32px;
+  left: 32px;
+  width: 300px;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.home-case-card--dark {
+  color: #fff;
+}
+
+.home-case-card--dark .home-case-card__title,
+.home-case-card--dark .home-case-card__year {
+  color: #fff;
+}
+
+.home-case-card--dark .home-case-card__title span:first-child {
+  color: #fff;
+}
+
+.home-case-card--dark .home-case-card__title span:last-child {
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .home-case-card__button {
@@ -3254,18 +3295,17 @@ h3,
     line-height: 38px;
   }
 
+  .home-projects > h2 {
+    font-size: 32px;
+    line-height: 38px;
+  }
+
   .home-competitions > h2 {
     font-size: 32px;
     line-height: 38px;
   }
 
   .home-case-card,
-  .home-competition-card {
-    height: 512px;
-    min-height: 512px;
-    width: 100%;
-  }
-
   .home-competition-card {
     display: grid;
     height: auto;
@@ -3275,35 +3315,68 @@ h3,
     padding: 24px;
   }
 
+  .home-case-card,
+  .home-competition-card {
+    width: 100%;
+  }
+
   .home-case-card__bg {
-    top: -145.19%;
-    left: 0;
-    width: 201.4%;
-    height: 245.19%;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
   }
 
   .home-case-card__title {
-    top: 24px;
-    left: 24px;
-    width: 230px;
+    position: relative;
+    top: auto;
+    left: auto;
+    display: flex;
+    flex-direction: column;
+    order: 1;
+    width: auto;
+    grid-column: 1;
     font-size: 18px;
     line-height: 24px;
   }
 
   .home-case-card__year {
-    top: 24px;
-    right: 24px;
+    position: relative;
+    top: auto;
+    right: auto;
     left: auto;
+    order: 2;
+    grid-column: 2;
+    justify-self: end;
     font-size: 18px;
     line-height: 24px;
   }
 
-  .home-case-card__visual {
+  .home-case-card__description {
+    position: relative;
     top: auto;
-    bottom: 0;
+    bottom: auto;
+    left: auto;
+    display: block;
+    order: 4;
+    width: auto;
+    grid-column: 1 / -1;
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  .home-case-card__visual {
+    position: relative;
+    top: auto;
+    left: auto;
+    bottom: auto;
+    order: 3;
     width: 100%;
     height: auto;
-    aspect-ratio: 342 / 312;
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    transform: none;
   }
 
   .home-case-card__object {
@@ -3311,6 +3384,7 @@ h3,
     width: 100%;
     min-width: 0;
     height: 100%;
+    object-fit: cover;
   }
 
   .home-case-card:hover .home-case-card__object {
@@ -3320,10 +3394,14 @@ h3,
   }
 
   .home-case-card__button {
-    top: 88px;
+    position: relative;
+    top: auto;
     right: auto;
     bottom: auto;
-    left: 24px;
+    left: auto;
+    order: 5;
+    grid-column: 1 / -1;
+    justify-self: start;
   }
 
   .home-case-card__button.ui-button--l {
