@@ -59,7 +59,7 @@
   root.innerHTML = `
     <header class="home-header home-header--case" aria-label="Основная навигация">
       <div class="home-header__panel">
-        <a class="home-header__brand" href="../index.html" target="_blank" rel="noopener noreferrer" aria-label="Eldar Galiamov">
+        <a class="home-header__brand" href="../index.html" aria-label="Eldar Galiamov">
           <span class="home-header__avatar">${img("home-logo.png", "", "home-header__avatar-img")}</span>
           <span>Eldar Galiamov</span>
         </a>
@@ -68,7 +68,7 @@
           <a class="ui-button ui-button--m ui-button--black" href="https://t.me/eldarglmv" target="_blank" rel="noopener noreferrer">Telegram</a>
         </nav>
       </div>
-      <a class="home-header__close" href="../index.html" target="_blank" rel="noopener noreferrer" aria-label="Закрыть кейс">
+      <a class="home-header__close" href="../index.html" aria-label="Закрыть кейс">
         <span class="home-header__close-button">${closeIcon()}</span>
       </a>
     </header>
