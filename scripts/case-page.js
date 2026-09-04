@@ -385,6 +385,7 @@
             <a href="mailto:eldargaliamov19@gmail.com" target="_blank" rel="noopener noreferrer">eldargaliamov19@gmail.com</a>
           </div>
           <nav class="footer-contact__links" aria-label="Социальные ссылки">
+            <a href="../privacy.html">Конфиденциальность</a>
             <a href="#" target="_blank" rel="noopener noreferrer">Behance <span aria-hidden="true">↗</span></a>
             <a href="https://t.me/eldarglmv" target="_blank" rel="noopener noreferrer">Telegram <span aria-hidden="true">↗</span></a>
           </nav>
