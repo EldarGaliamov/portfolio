@@ -1164,6 +1164,7 @@ li {
   width: 10px;
   height: 10px;
   flex: 0 0 10px;
+  transform: rotate(45deg);
 }
 
 .home-footer__links {
