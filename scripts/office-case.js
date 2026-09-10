@@ -2,8 +2,44 @@
   const root = document.querySelector(".case-page--office");
   if (!root) return;
 
+  enhanceOfficeResults(root);
   initOfficeMotion(root);
   initOfficeLightbox(root);
+
+  function enhanceOfficeResults(scope) {
+    const resultsSection = scope.querySelector(".office-results");
+    const summaryGrid = resultsSection?.querySelector(".reflection-grid");
+    if (!resultsSection || !summaryGrid || resultsSection.querySelector(".office-results__details")) return;
+
+    const resultText = resultsSection.querySelector(".office-result-card p");
+    if (resultText) {
+      resultText.textContent =
+        "Пользователь больше не проходит длинный справочник вручную: нужные офисы можно найти напрямую, выбрать по одному или массово и проверить итог перед сохранением.";
+    }
+
+    const details = document.createElement("div");
+    details.className = "two-columns office-context-grid office-results__details";
+    details.innerHTML = `
+      <article class="info-card">
+        <h3>Для пользователя</h3>
+        <p>Сценарий стал соответствовать реальной задаче: вместо последовательного прохождения справочника пользователь сразу ищет нужный город или отделение, может массово выбрать офисы и контролирует итоговый набор перед сохранением.</p>
+      </article>
+      <article class="info-card">
+        <h3>Для продукта</h3>
+        <p>Новую сущность — сегменты — удалось встроить в существующий сценарий закрепления без отдельной ветки процесса. Пользователь настраивает сегменты в контексте конкретного офиса и не теряет связь между отделением и зоной ответственности менеджера.</p>
+      </article>
+      <article class="info-card">
+        <h3>Для команды</h3>
+        <p>Вместо набора разрозненных экранов получился единый конфигуратор с описанными состояниями поиска, массового выбора, сегментов, проверки и сохранения. Это делает логику сценария прозрачнее для дальнейшей реализации и развития.</p>
+      </article>
+      <article class="info-card">
+        <h3>Как оценивать эффект</h3>
+        <p>Количественных продуктовых метрик по задаче пока нет. После запуска я бы оценивал время выполнения сценария, количество действий до сохранения, число исправлений выбранных офисов и долю пользователей, которые используют массовый выбор.</p>
+      </article>
+    `;
+
+    summaryGrid.insertAdjacentElement("afterend", details);
+  }
 
   function initOfficeMotion(scope) {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
