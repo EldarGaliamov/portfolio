@@ -495,6 +495,14 @@ li {
   animation: home-enter 700ms var(--motion-smooth) 200ms both;
 }
 
+.home-hero__description a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 .home-hero__meta {
   max-width: 912px;
   margin-top: 24px;
