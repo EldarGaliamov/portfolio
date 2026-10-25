@@ -8,7 +8,10 @@
   --container: 1376px;
   --gutter: 32px;
   --radius: 24px;
+  /* Preserve the owner's preferred 600/720ms glide; navigation never waits for it. */
+  --motion-press: 160ms;
   --motion-fast: 180ms;
+  --motion-disclosure: 720ms;
   --motion-normal: 350ms;
   --motion-slow: 600ms;
   --motion-smooth: cubic-bezier(0.22, 1, 0.36, 1);
@@ -21,6 +24,10 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+html.lenis {
+  scroll-behavior: auto;
 }
 
 body {
@@ -100,9 +107,11 @@ li {
   transition: opacity var(--motion-fast) var(--motion-smooth), transform var(--motion-fast) var(--motion-smooth);
 }
 
-.brand:hover {
-  opacity: 0.72;
-  transform: translateY(-1px);
+@media (hover: hover) and (pointer: fine) {
+  .brand:hover {
+    opacity: 0.72;
+    transform: translateY(-1px);
+  }
 }
 
 .brand__logo {
@@ -130,12 +139,14 @@ li {
   transition: opacity var(--motion-fast) var(--motion-smooth), transform var(--motion-fast) var(--motion-smooth);
 }
 
-.site-nav a:not(.pill):hover,
-.footer-contact a:hover,
-.site-footer nav a:hover,
-.back-link:hover {
-  opacity: 0.62;
-  transform: translateY(-1px);
+@media (hover: hover) and (pointer: fine) {
+  .site-nav a:not(.pill):hover,
+  .footer-contact a:hover,
+  .site-footer nav a:hover,
+  .back-link:hover {
+    opacity: 0.62;
+    transform: translateY(-1px);
+  }
 }
 
 .pill {
@@ -152,9 +163,11 @@ li {
   transition: transform var(--motion-fast) var(--motion-smooth), box-shadow var(--motion-fast) var(--motion-smooth), opacity var(--motion-fast) var(--motion-smooth);
 }
 
-.pill:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(26, 26, 26, 0.16);
+@media (hover: hover) and (pointer: fine) {
+  .pill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(26, 26, 26, 0.16);
+  }
 }
 
 .pill:active {
@@ -179,7 +192,13 @@ li {
   border-radius: 9999px;
   font-weight: 500;
   white-space: nowrap;
-  transition: background-color var(--motion-fast) var(--motion-smooth);
+  transition: background-color var(--motion-fast) var(--motion-smooth), transform var(--motion-press) var(--motion-smooth);
+}
+
+.ui-button:active,
+.home-case-card:active .home-case-card__button,
+.home-header__close:active .home-header__close-button {
+  transform: scale(0.97);
 }
 
 .ui-button--l {
@@ -397,7 +416,7 @@ li {
   border-radius: 9999px;
   background: var(--ink);
   color: #fff;
-  transition: background-color var(--motion-fast) var(--motion-smooth);
+  transition: background-color var(--motion-fast) var(--motion-smooth), transform var(--motion-press) var(--motion-smooth);
 }
 
 .home-header__close-button:hover {
@@ -654,7 +673,6 @@ li {
   display: flex;
   flex-direction: column;
   gap: 40px;
-  animation: home-enter 700ms var(--motion-smooth) 380ms both;
 }
 
 .home-section-title {
@@ -741,20 +759,14 @@ li {
   height: 100%;
   object-fit: cover;
   transform: none;
-  transform-origin: 50% 100%;
-  transition:
-    top var(--motion-slow) var(--motion-smooth),
-    left var(--motion-slow) var(--motion-smooth),
-    width var(--motion-slow) var(--motion-smooth),
-    height var(--motion-slow) var(--motion-smooth);
-  will-change: top, left, width, height;
+  transform-origin: center;
+  transition: transform var(--motion-slow) var(--motion-smooth);
 }
 
-.home-case-card:hover .home-case-card__object {
-  top: -2.74%;
-  left: -2.67%;
-  width: 105.47%;
-  height: 105.47%;
+@media (hover: hover) and (pointer: fine) {
+  .home-case-card:hover .home-case-card__object {
+    transform: scale(1.0547);
+  }
 }
 
 .home-case-card__title,
@@ -854,7 +866,6 @@ li {
   display: flex;
   flex-direction: column;
   gap: 40px;
-  animation: home-enter 700ms var(--motion-smooth) 460ms both;
 }
 
 .home-competitions > h2 {
@@ -1014,10 +1025,9 @@ li {
   opacity: 0;
   transform: translate3d(0, 8px, 0);
   transition:
-    grid-template-rows 720ms var(--motion-smooth),
-    opacity 720ms var(--motion-smooth),
-    transform 720ms var(--motion-smooth);
-  will-change: grid-template-rows;
+    grid-template-rows var(--motion-disclosure) var(--motion-smooth),
+    opacity var(--motion-disclosure) var(--motion-smooth),
+    transform var(--motion-disclosure) var(--motion-smooth);
 }
 
 .home-competition-card__place-details-inner {
@@ -1027,7 +1037,7 @@ li {
   align-items: flex-start;
   overflow: hidden;
   padding-top: 0;
-  transition: padding-top 720ms var(--motion-smooth);
+  transition: padding-top var(--motion-disclosure) var(--motion-smooth);
 }
 
 .home-competition-card.is-place-open .home-competition-card__place-details {
@@ -2727,32 +2737,21 @@ h3,
 
 .motion-reveal {
   opacity: 0;
-  transform: translate3d(0, 24px, 0) scale(0.985);
+  translate: 0 12px;
   transition:
     opacity var(--motion-slow) var(--motion-smooth) var(--reveal-delay, 0ms),
-    transform var(--motion-slow) var(--motion-smooth) var(--reveal-delay, 0ms);
-  will-change: opacity, transform;
+    translate var(--motion-slow) var(--motion-smooth) var(--reveal-delay, 0ms);
 }
 
 .motion-reveal.is-visible {
   opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
+  translate: none;
 }
 
-.case-page--office .motion-reveal--image.is-visible {
-  transform: none;
-}
-
-.motion-reveal--soft {
-  transform: translate3d(0, 16px, 0);
-}
-
-.motion-reveal--image {
-  transform: translate3d(0, 28px, 0) scale(0.975);
-}
-
-.motion-reveal--pop {
-  transform: translate3d(0, 18px, 0) scale(0.96);
+.motion-reveal:focus-within {
+  opacity: 1;
+  translate: none;
+  transition: none;
 }
 
 .hero-visual__bg,
@@ -2779,8 +2778,10 @@ h3,
   transition: transform var(--motion-slow) var(--motion-smooth), filter var(--motion-normal) var(--motion-smooth);
 }
 
-.zoomable-image:hover {
-  transform: translateY(-2px) scale(1.01);
+@media (hover: hover) and (pointer: fine) {
+  .zoomable-image:hover {
+    transform: translateY(-2px) scale(1.01);
+  }
 }
 
 .zoomable-image {
@@ -2884,11 +2885,13 @@ h3,
   transition: transform 180ms ease, background 180ms ease;
 }
 
-.image-lightbox__close:hover,
-.image-lightbox__zoom:hover,
-.image-lightbox__nav:hover {
-  background: var(--panel);
-  transform: translateY(-1px);
+@media (hover: hover) and (pointer: fine) {
+  .image-lightbox__close:hover,
+  .image-lightbox__zoom:hover,
+  .image-lightbox__nav:hover {
+    background: var(--panel);
+    transform: translateY(-1px);
+  }
 }
 
 .image-lightbox__close:focus-visible,
@@ -3847,9 +3850,7 @@ h3,
   }
 
   .home-case-card:hover .home-case-card__object {
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    transform: none;
   }
 
   .home-case-card__button {
@@ -4155,17 +4156,16 @@ h3,
   *::before,
   *::after {
     animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    transition-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 1ms !important;
     scroll-behavior: auto !important;
   }
 
-  .motion-reveal,
-  .motion-reveal--soft,
-  .motion-reveal--image,
-  .motion-reveal--pop {
+  .motion-reveal {
     opacity: 1;
-    transform: none;
+    translate: none;
   }
 
   .partner-marquee__track {
@@ -4179,6 +4179,9 @@ h3,
   .back-link:hover,
   .pill:hover,
   .ui-button:hover,
+  .ui-button:active,
+  .home-case-card:active .home-case-card__button,
+  .home-header__close:active .home-header__close-button,
   .zoomable-image:hover,
   .home-case-card:hover .home-case-card__object,
   .home-header__close-button:hover,
@@ -4241,8 +4244,10 @@ h3,
   transition: opacity var(--motion-fast) var(--motion-smooth), transform var(--motion-fast) var(--motion-smooth), background var(--motion-fast) var(--motion-smooth);
 }
 
-.analytics-consent__button:hover {
-  transform: translateY(-1px);
+@media (hover: hover) and (pointer: fine) {
+  .analytics-consent__button:hover {
+    transform: translateY(-1px);
+  }
 }
 
 .analytics-consent__button:focus-visible,
