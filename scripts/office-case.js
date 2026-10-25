@@ -6,64 +6,11 @@
   initOfficeLightbox(root);
 
   function initOfficeMotion(scope) {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const lowEndDevice =
-      typeof navigator !== "undefined" &&
-      ((navigator.deviceMemory !== undefined && navigator.deviceMemory <= 2) ||
-        (navigator.deviceMemory === undefined && navigator.hardwareConcurrency <= 4));
-    const shouldAnimate = !reduceMotion && !lowEndDevice;
-
-    const revealSelectors = [
-      ".project-hero__copy",
-      ".hero-visual",
-      ".section-block",
-      ".solution-block",
-      ".info-card",
-      ".gradient-card",
-      ".office-small-card",
-      ".office-callout-card",
-      ".office-problem-visuals",
-      ".office-image-panel",
-      ".office-copy-card",
-      ".office-embed-panel",
-      ".stage-row span",
-      ".chip",
-      ".tool-chip",
-    ];
-    const revealItems = [...new Set(revealSelectors.flatMap((selector) => [...scope.querySelectorAll(selector)]))];
-
-    revealItems.forEach((item, index) => {
-      item.classList.add("motion-reveal");
-      item.style.setProperty("--reveal-delay", `${Math.min((index % 6) * 45, 225)}ms`);
-      if (
-        item.matches(
-          ".hero-visual, .office-problem-visuals, .office-image-panel, .office-embed-panel",
-        )
-      ) {
-        item.classList.add("motion-reveal--image");
-      }
-      if (item.matches(".chip, .tool-chip, .stage-row span")) {
-        item.classList.add("motion-reveal--pop");
-      }
-    });
-
-    if (!shouldAnimate || !("IntersectionObserver" in window)) {
-      revealItems.forEach((item) => item.classList.add("is-visible"));
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
-        });
-      },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.12 },
-    );
-
-    revealItems.forEach((item) => observer.observe(item));
+    window.PortfolioMotion?.reveal(scope, `
+      .project-hero__copy, .hero-visual, .info-card, .gradient-card,
+      .office-small-card, .office-callout-card, .office-problem-visuals,
+      .office-image-panel, .office-copy-card, .office-embed-panel
+    `);
   }
 
   function initOfficeLightbox(scope) {

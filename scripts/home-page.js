@@ -1,4 +1,8 @@
 (function () {
+  window.PortfolioMotion?.reveal(
+    document.querySelector(".home-main"),
+    ".home-projects > h2, .home-case-card, .home-competitions > h2, .home-competition-card",
+  );
   const mobilePlaceQuery = window.matchMedia("(max-width: 760px)");
   const cards = Array.from(document.querySelectorAll(".home-competition-card"));
 

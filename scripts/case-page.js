@@ -398,74 +398,16 @@
   initCaseLightbox(root);
 
   function initCaseMotion(scope) {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const lowEndDevice =
-      typeof navigator !== "undefined" &&
-      ((navigator.deviceMemory !== undefined && navigator.deviceMemory <= 2) ||
-        (navigator.deviceMemory === undefined && navigator.hardwareConcurrency <= 4));
-    const shouldAnimate = !reduceMotion && !lowEndDevice;
     const header = scope.querySelector(".home-header");
-
-    const updateHeader = () => {
-      if (!header) return;
-      header.classList.toggle("is-scrolled", window.scrollY > 8);
-    };
-
+    const updateHeader = () => header?.classList.toggle("is-scrolled", window.scrollY > 8);
     updateHeader();
     window.addEventListener("scroll", updateHeader, { passive: true });
 
-    const revealSelectors = [
-      ".back-link",
-      ".project-hero__copy",
-      ".hero-visual",
-      ".section-block",
-      ".solution-block",
-      ".info-card",
-      ".gradient-card",
-      ".competitor-card",
-      ".flow-panel",
-      ".big-panel",
-      ".old-solution",
-      ".stage-row span",
-      ".chip",
-      ".tool-chip",
-      ".handoff-row",
-      ".case-video",
-      ".future-video",
-      ".future-image",
-      ".site-footer__top > *",
-      ".footer-mark",
-    ];
-    const revealItems = [...new Set(revealSelectors.flatMap((selector) => [...scope.querySelectorAll(selector)]))];
-
-    revealItems.forEach((item, index) => {
-      item.classList.add("motion-reveal");
-      item.style.setProperty("--reveal-delay", `${Math.min((index % 6) * 45, 225)}ms`);
-      if (item.matches(".hero-visual, .big-panel, .flow-panel, .old-solution, .case-video, .future-video, .future-image")) {
-        item.classList.add("motion-reveal--image");
-      }
-      if (item.matches(".chip, .tool-chip, .stage-row span")) {
-        item.classList.add("motion-reveal--pop");
-      }
-    });
-
-    if (!shouldAnimate || !("IntersectionObserver" in window)) {
-      revealItems.forEach((item) => item.classList.add("is-visible"));
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
-        });
-      },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.12 },
-    );
-
-    revealItems.forEach((item) => observer.observe(item));
+    window.PortfolioMotion?.reveal(scope, `
+      .back-link, .project-hero__copy, .hero-visual, .info-card, .gradient-card,
+      .competitor-card, .flow-panel, .big-panel, .old-solution, .handoff-row,
+      .case-video, .future-video, .future-image, .site-footer__top > *, .footer-mark
+    `);
   }
 
   function initCaseLightbox(scope) {
