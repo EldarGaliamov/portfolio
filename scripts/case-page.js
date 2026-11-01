@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
   const root = document.querySelector("#case-root");
   if (!root) return;
 
@@ -436,11 +436,19 @@
       ".site-footer__top > *",
       ".footer-mark",
     ];
-    const revealItems = [...new Set(revealSelectors.flatMap((selector) => [...scope.querySelectorAll(selector)]))];
+    if (!shouldAnimate || !("IntersectionObserver" in window)) return;
 
-    revealItems.forEach((item, index) => {
+    const candidates = [...scope.querySelectorAll(revealSelectors.join(","))];
+    const revealItems = candidates.filter((item) =>
+      !candidates.some((child) => child !== item && item.contains(child)),
+    );
+    const groupCounts = new Map();
+
+    revealItems.forEach((item) => {
       item.classList.add("motion-reveal");
-      item.style.setProperty("--reveal-delay", `${Math.min((index % 6) * 45, 225)}ms`);
+      const index = groupCounts.get(item.parentElement) || 0;
+      groupCounts.set(item.parentElement, index + 1);
+      item.style.setProperty("--reveal-delay", `${Math.min(index * 45, 135)}ms`);
       if (item.matches(".hero-visual, .big-panel, .flow-panel, .old-solution, .case-video, .future-video, .future-image")) {
         item.classList.add("motion-reveal--image");
       }
@@ -449,10 +457,6 @@
       }
     });
 
-    if (!shouldAnimate || !("IntersectionObserver" in window)) {
-      revealItems.forEach((item) => item.classList.add("is-visible"));
-      return;
-    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -462,7 +466,7 @@
           observer.unobserve(entry.target);
         });
       },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.12 },
+      { rootMargin: "0px 0px -32px 0px", threshold: 0.05 },
     );
 
     revealItems.forEach((item) => observer.observe(item));

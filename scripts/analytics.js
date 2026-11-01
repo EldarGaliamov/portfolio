@@ -136,7 +136,7 @@
     consent.setAttribute("aria-label", "Настройки аналитики");
     consent.innerHTML = `
       <p class="analytics-consent__text">
-        Я использую Яндекс Метрику, чтобы понимать, какие кейсы полезнее посетителям.
+        Разрешить Яндекс Метрику для анализа посещений?
         <a href="${document.body.dataset.rootPath || "."}/privacy.html">Подробнее</a>
       </p>
       <div class="analytics-consent__actions">
