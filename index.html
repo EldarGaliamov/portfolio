@@ -1,86 +1,260 @@
 <!doctype html>
 <html lang="ru">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Эльдар Галямов — продуктовый дизайнер. Интерфейсы, дизайн-системы, 3D и анимация." />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>Эльдар Галямов — в своём мире</title>
-    <link rel="icon" href="./assets/icons/favicon.ico" />
+    <meta charset="UTF-8" />
+    <meta name="yandex-verification" content="ceeee0b9a8c346f8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Портфолио Eldar Galiamov. Product designer, UX/UI, B2B, SaaS, Enterprise, Design Systems, 3D & Motion." />
+    <title>Eldar Galiamov | Portfolio</title>
+    <link rel="icon" href="./assets/icons/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/icons/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="preload" as="image" href="./assets/experiment/meadow.webp" />
-    <link rel="stylesheet" href="./styles/experiment.css" />
-    <script src="./scripts/vendor/gsap.min.js" defer></script>
-    <script src="./scripts/vendor/ScrollTrigger.min.js" defer></script>
-    <script src="./scripts/experiment.js" defer></script>
-    <script src="./scripts/animations.js" defer></script>
+    <link rel="stylesheet" href="./styles/site.css" />
+    <script src="./scripts/analytics.js" defer></script>
     <link rel="stylesheet" href="./styles/glow-cursor.css" />
     <script src="./scripts/glow-cursor.js" defer></script>
+    <script src="./scripts/vendor/gsap.min.js" defer></script>
+    <script src="./scripts/vendor/ScrollTrigger.min.js" defer></script>
+    <script src="./scripts/animations.js" defer></script>
   </head>
-  <body>
-    <a class="skip-link" href="#world">Перейти к содержимому</a>
-    <div class="landscape" aria-hidden="true"></div>
-    <div class="daylight" aria-hidden="true"></div>
-    <header class="site-header">
-      <a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true">eg.</span> Эльдар Галямов</a>
-      <span class="header-note">Дизайн с человеческим лицом</span>
-      <a class="glass-pill header-contact" href="https://t.me/eldarglmv" target="_blank" rel="noopener noreferrer">На связи <span aria-hidden="true">↗</span></a>
-    </header>
-    <main class="world" id="world">
-      <div class="intro">
-        <p class="eyebrow">PRODUCT DESIGNER · 3D & MOTION</p>
-        <h1>Привет, я Эльдар<span class="title-dot">.</span></h1>
-        <p class="intro-copy">Создаю понятные интерфейсы.<br class="mobile-break" /> И немного новые миры.</p>
-      </div>
-      <div class="spatial-scene">
-        <div class="portrait" aria-label="Фото Эльдара Галямова">
-          <div class="portrait-halo" aria-hidden="true"></div>
-          <img src="./assets/experiment/eldar-cutout.png" alt="Эльдар Галямов в зелёном свитере, широкоугольный портрет без фона" fetchpriority="high" />
+  <body data-root-path=".">
+    <div class="portfolio-home">
+      <header class="home-header home-header--main" aria-label="Основная навигация">
+        <div class="home-header__panel">
+          <a class="home-header__brand" href="./index.html" aria-label="Eldar Galiamov">
+            <span class="home-header__avatar">
+              <img src="./assets/figma/home-logo.png" alt="" />
+            </span>
+            <span>Eldar Galiamov</span>
+          </a>
+          <nav class="home-header__nav">
+            <a href="./assets/Files/Галямов Эльдар Резюме.pdf" target="_blank" rel="noopener noreferrer" aria-label="Резюме">Резюме</a>
+            <a class="ui-button ui-button--m ui-button--black" href="https://t.me/eldarglmv" target="_blank" rel="noopener noreferrer">Telegram</a>
+          </nav>
         </div>
-        <button class="scene-panel panel-projects" data-panel="projects" aria-haspopup="dialog">
-          <span class="round-arrow" aria-hidden="true">↗</span>
-          <span class="panel-title">Мои проекты</span>
-          <span class="project-previews" aria-hidden="true"><span class="preview preview-office"><img src="./assets/figma/home-office-card-ui.png" alt="" /></span><span class="preview preview-tsvetnoy"><img src="./assets/figma/home-case-object.png" alt="" /></span></span>
-          <span class="panel-bottom">От сложных систем до маленьких деталей <span>4 проекта</span></span>
-        </button>
-        <button class="scene-panel panel-about" data-panel="about" aria-haspopup="dialog">
-          <span class="round-arrow" aria-hidden="true">↗</span>
-          <span class="panel-title">Немного обо мне</span>
-          <span class="panel-copy">Соединяю логику продукта<br />с вниманием к людям.</span>
-          <span class="tag-row"><span>3 года в дизайне</span><span>Metasharks</span></span>
-        </button>
-        <button class="scene-panel panel-tools" data-panel="tools" aria-haspopup="dialog">
-          <span class="round-arrow" aria-hidden="true">↗</span>
-          <span class="panel-title">От идеи до объёма</span>
-          <span class="tool-row" aria-hidden="true"><span><img src="./assets/figma/tool-figma.png" alt="" /></span><span><img src="./assets/figma/tool-blender.png" alt="" /></span><span><img src="./assets/figma/tool-spline.png" alt="" /></span><span><img src="./assets/figma/tool-framer.png" alt="" /></span></span>
-          <span class="panel-bottom">UX/UI · Дизайн-системы · 3D · Анимация</span>
-        </button>
-        <button class="scene-panel panel-contact" data-panel="contact" aria-haspopup="dialog">
-          <span class="round-arrow" aria-hidden="true">↗</span>
-          <span class="panel-title">Хороший дизайн<br />начинается с «привет»</span>
-          <span class="contact-handle"><span class="status-dot" aria-hidden="true"></span> @eldarglmv</span>
-        </button>
-      </div>
-      <div class="nameplate glass-pill"><span class="status-dot" aria-hidden="true"></span> Эльдар Галямов <span class="nameplate-divider"></span><span>Product designer</span></div>
-    </main>
-    <footer class="scene-footer"><span>© 2026 Эльдар Галямов</span><span class="scene-hint">Подвигай курсором. Загляни в мой мир.</span><button class="motion-toggle" type="button" aria-pressed="true">Движение вкл. <span aria-hidden="true">◉</span></button></footer>
-    <dialog class="detail-dialog" aria-labelledby="dialog-title">
-      <div class="dialog-toolbar"><button class="dialog-close" type="button" aria-label="Закрыть панель">×</button></div>
-      <div class="dialog-content"></div>
-    </dialog>
-    <template id="content-projects">
-      <h2 id="dialog-title">Мои проекты</h2><p class="dialog-lead">Интерфейсы для людей и задач, которые за ними стоят.</p>
-      <div class="project-list">
-        <a class="project-link" href="./cases/office-assignment.html"><img src="./assets/figma/home-office-card-bg.png" alt="Превью проекта закрепления менеджеров" /><span><small>UX/UI · 2026</small><strong>Закрепление менеджеров за отделениями</strong><span>Поиск и массовое закрепление в бизнес-системе</span></span><b aria-hidden="true">↗</b></a>
-        <a class="project-link" href="./cases/tsvetnoy-gift-cards.html"><img src="./assets/figma/home-case-bg.png" alt="Превью проекта Цветной" /><span><small>UX/UI · 2025</small><strong>Универмаг «Цветной»</strong><span>Сервис подарочных карт</span></span><b aria-hidden="true">↗</b></a>
-        <a class="project-link" href="https://k2.cloud/" target="_blank" rel="noopener noreferrer"><img src="./assets/figma/Casek2cloud.png" alt="Превью K2 Cloud" /><span><small>ВЕБ · 2025</small><strong>K2 Cloud</strong><span>Компоненты, мероприятия, статьи и новости</span></span><b aria-hidden="true">↗</b></a>
-        <a class="project-link" href="https://segmenta-flavours.com/ru" target="_blank" rel="noopener noreferrer"><img src="./assets/figma/segmenta.png" alt="Превью Segmenta" /><span><small>ВЕБ · 2025</small><strong>Segmenta</strong><span>Корпоративный сайт</span></span><b aria-hidden="true">↗</b></a>
-      </div><a class="text-link" href="./classic.html#competitions-title">Ещё немного 3D и анимации ↗</a>
-    </template>
-    <template id="content-about"><h2 id="dialog-title">Приятно познакомиться.</h2><p class="dialog-lead">Я Эльдар, продуктовый дизайнер.</p><p>Работаю в Metasharks. Сейчас проектирую интерфейсы для крупной страховой компании: разбираюсь в сложных процессах и превращаю их в понятные сценарии.</p><p>Разработал UX/UI сервиса подарочных карт универмага «Цветной». Работаю с личными кабинетами, бизнес-системами и дизайн-системами.</p><p>А ещё создаю 3D и анимацию и собираю прототипы с помощью ИИ. Мне интересно, как интерфейсы могут быть не только полезными, но и живыми.</p><a class="primary-link" href="./assets/Files/Резюме Галямов Эльдар.pdf" target="_blank" rel="noopener noreferrer">Посмотреть резюме <span aria-hidden="true">↗</span></a></template>
-    <template id="content-tools"><h2 id="dialog-title">Моя мастерская</h2><p class="dialog-lead">Разные инструменты. Одна цель — довести идею до работающего опыта.</p><div class="skills-list"><div><img src="./assets/figma/tool-figma.png" alt="" /><span><strong>Figma</strong><span>Интерфейсы, прототипы и дизайн-системы</span></span></div><div><img src="./assets/figma/tool-blender.png" alt="" /><span><strong>Blender</strong><span>3D, материалы и анимация</span></span></div><div><img src="./assets/figma/tool-spline.png" alt="" /><span><strong>Spline</strong><span>Интерактивные сцены</span></span></div><div><img src="./assets/figma/tool-framer.png" alt="" /><span><strong>Framer</strong><span>Сайты и интерактивные прототипы</span></span></div></div></template>
-    <template id="content-contact"><h2 id="dialog-title">Начнём с «привет»?</h2><p class="dialog-lead">Обсудить проект, обменяться идеями или просто познакомиться.</p><a class="primary-link" href="https://t.me/eldarglmv" target="_blank" rel="noopener noreferrer">Написать в Telegram <span aria-hidden="true">↗</span></a><a class="email-link" href="mailto:eldargaliamov19@gmail.com">eldargaliamov19@gmail.com <span aria-hidden="true">↗</span></a><p class="contact-signature">До встречи,<br />Эльдар</p></template>
+      </header>
+
+      <main class="home-main">
+        <section class="home-hero" aria-labelledby="home-title">
+          <div class="home-hero__photo">
+            <img src="./assets/figma/home-logo.png" alt="Эльдар Галямов" />
+          </div>
+          <div class="home-hero__title">
+            <h1 id="home-title">Эльдар Галямов</h1>
+            <p>Product designer</p>
+          </div>
+          <p class="home-hero__description">
+            Работаю в&nbsp;<a href="https://metasharks.ru/" target="_blank" rel="noopener noreferrer">Metasharks</a>, сейчас проектирую интерфейсы для&nbsp;крупной страховой компании. Разработал UX/UI сервиса подарочных карт универмага <a href="https://tsvetnoy.com/cards" target="_blank" rel="noopener noreferrer">«Цветной»</a>. Помимо&nbsp;интерфейсов, создаю 3D и&nbsp;анимацию, собираю прототипы с&nbsp;помощью&nbsp;ИИ.
+          </p>
+          <p class="home-hero__meta">3 года опыта · Личные кабинеты · Бизнес-системы · Дизайн-системы</p>
+
+          <div class="partner-marquee" aria-label="Компании и проекты">
+            <div class="partner-marquee__track">
+              <span class="partner-logo partner-logo--delovie"><img src="./assets/figma/partner-delovie.svg" alt="Деловые линии" /></span>
+              <span class="partner-logo partner-logo--rosbank"><img src="./assets/figma/partner-rosbank.svg" alt="Росбанк Страхование" /></span>
+              <span class="partner-logo partner-logo--tsvetnoy"><img src="./assets/figma/partner-tsvetnoy.svg" alt="Цветной" /></span>
+              <span class="partner-logo partner-logo--iteko"><img src="./assets/figma/partner-iteko.svg" alt="Айтеко" /></span>
+              <span class="partner-logo partner-logo--allwin"><img src="./assets/figma/partner-allwin.svg" alt="Allwin" /></span>
+              <span class="partner-logo partner-logo--mafin"><img src="./assets/figma/partner-mafin.svg" alt="Mafin" /></span>
+              <span class="partner-logo partner-logo--alfastrah"><img src="./assets/figma/partner-alfastrah.svg" alt="Альфа Страхование Жизнь" /></span>
+              <span class="partner-logo partner-logo--k2cloud"><img src="./assets/figma/partner-k2cloud.svg" alt="K2 Cloud" /></span>
+              <span class="partner-logo partner-logo--absolut"><img src="./assets/figma/partner-absolut.svg" alt="Абсолют" /></span>
+              <span class="partner-logo partner-logo--orion"><img src="./assets/figma/partner-orion.svg" alt="Orion Soft" /></span>
+              <span class="partner-logo partner-logo--segmenta"><img src="./assets/figma/partner-segmenta.png" alt="Segmenta" /></span>
+              <span class="partner-logo partner-logo--delovie" aria-hidden="true"><img src="./assets/figma/partner-delovie.svg" alt="" /></span>
+              <span class="partner-logo partner-logo--rosbank" aria-hidden="true"><img src="./assets/figma/partner-rosbank.svg" alt="" /></span>
+              <span class="partner-logo partner-logo--tsvetnoy" aria-hidden="true"><img src="./assets/figma/partner-tsvetnoy.svg" alt="" /></span>
+              <span class="partner-logo partner-logo--iteko" aria-hidden="true"><img src="./assets/figma/partner-iteko.svg" alt="" /></span>
+              <span class="partner-logo partner-logo--allwin" aria-hidden="true"><img src="./assets/figma/partner-allwin.svg" alt="" /></span>
+              <span class="partner-logo partner-logo--mafin" aria-hidden="true"><img src="./assets/figma/partner-mafin.svg" alt="" /></span>
+              <span class="partner-logo partner-logo--alfastrah" aria-hidden="true"><img src="./assets/figma/partner-alfastrah.svg" alt="" /></span>
+              <span class="partner-logo partner-logo--k2cloud" aria-hidden="true"><img src="./assets/figma/partner-k2cloud.svg" alt="" /></span>
+              <span class="partner-logo partner-logo--absolut" aria-hidden="true"><img src="./assets/figma/partner-absolut.svg" alt="" /></span>
+              <span class="partner-logo partner-logo--orion" aria-hidden="true"><img src="./assets/figma/partner-orion.svg" alt="" /></span>
+              <span class="partner-logo partner-logo--segmenta" aria-hidden="true"><img src="./assets/figma/partner-segmenta.png" alt="" /></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="home-projects" aria-labelledby="projects-title">
+          <h2 id="projects-title">Проекты <sup>4</sup></h2>
+          <div class="home-projects__list">
+            <a class="home-case-card home-case-card--image-bg home-case-card--dark home-case-card--office" href="./cases/office-assignment.html" aria-label="Открыть кейс Закрепление менеджеров за отделениями">
+              <img class="home-case-card__bg" src="./assets/figma/home-office-card-bg.png" alt="" />
+              <span class="home-case-card__visual" aria-hidden="true">
+                <img class="home-case-card__object" src="./assets/figma/home-office-card-ui.png" alt="" />
+              </span>
+              <span class="home-case-card__title">
+                <span>Как я упростил поиск</span>
+                <span>и&nbsp;массовое закрепление менеджеров за&nbsp;отделениями</span>
+              </span>
+              <span class="home-case-card__year">2026</span>
+              <span class="home-case-card__button ui-button ui-button--l ui-button--white">
+                Перейти к&nbsp;кейсу
+                <span class="ui-button__icon" aria-hidden="true">
+                  <svg class="ui-button__icon-svg" viewBox="0 0 17.5 11.5" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                    <path d="M13.278 0.217309C12.9838 -0.0742744 12.5089 -0.0721557 12.2173 0.222041C11.9257 0.516238 11.9278 0.991107 12.222 1.28269L13.985 3.03C14.7005 3.73914 15.1913 4.22718 15.5234 4.64071C15.6313 4.77509 15.7155 4.8934 15.7809 5L0.75 5C0.335786 5 0 5.33579 0 5.75C0 6.16422 0.335786 6.5 0.75 6.5L15.7809 6.5C15.7155 6.6066 15.6313 6.72491 15.5234 6.85929C15.1913 7.27282 14.7005 7.76086 13.985 8.47L12.222 10.2173C11.9278 10.5089 11.9257 10.9838 12.2173 11.278C12.5089 11.5722 12.9838 11.5743 13.278 11.2827L15.0727 9.5039C15.7487 8.83395 16.3011 8.28641 16.6929 7.79854C17.1004 7.29121 17.3953 6.77628 17.4741 6.15816C17.4914 6.02265 17.5 5.88632 17.5 5.75C17.5 5.61368 17.4914 5.47735 17.4741 5.34184C17.3953 4.72372 17.1004 4.20878 16.6929 3.70146C16.3011 3.21358 15.7487 2.66604 15.0727 1.99609L13.278 0.217309Z" fill="currentColor" />
+                  </svg>
+                </span>
+              </span>
+            </a>
+
+            <a class="home-case-card" href="./cases/tsvetnoy-gift-cards.html" aria-label="Открыть кейс Универмаг Цветной">
+              <img class="home-case-card__bg" src="./assets/figma/home-case-bg.png" alt="" />
+              <span class="home-case-card__visual" aria-hidden="true">
+                <img class="home-case-card__object" src="./assets/figma/home-case-object.png" alt="" />
+              </span>
+              <span class="home-case-card__title">
+                <span>Универмаг «Цветной»,</span>
+                <span>сервис подарочных карт</span>
+              </span>
+              <span class="home-case-card__year">2025</span>
+              <span class="home-case-card__button ui-button ui-button--l ui-button--white">
+                Перейти к&nbsp;кейсу
+                <span class="ui-button__icon" aria-hidden="true">
+                  <svg class="ui-button__icon-svg" viewBox="0 0 17.5 11.5" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                    <path d="M13.278 0.217309C12.9838 -0.0742744 12.5089 -0.0721557 12.2173 0.222041C11.9257 0.516238 11.9278 0.991107 12.222 1.28269L13.985 3.03C14.7005 3.73914 15.1913 4.22718 15.5234 4.64071C15.6313 4.77509 15.7155 4.8934 15.7809 5L0.75 5C0.335786 5 0 5.33579 0 5.75C0 6.16422 0.335786 6.5 0.75 6.5L15.7809 6.5C15.7155 6.6066 15.6313 6.72491 15.5234 6.85929C15.1913 7.27282 14.7005 7.76086 13.985 8.47L12.222 10.2173C11.9278 10.5089 11.9257 10.9838 12.2173 11.278C12.5089 11.5722 12.9838 11.5743 13.278 11.2827L15.0727 9.5039C15.7487 8.83395 16.3011 8.28641 16.6929 7.79854C17.1004 7.29121 17.3953 6.77628 17.4741 6.15816C17.4914 6.02265 17.5 5.88632 17.5 5.75C17.5 5.61368 17.4914 5.47735 17.4741 5.34184C17.3953 4.72372 17.1004 4.20878 16.6929 3.70146C16.3011 3.21358 15.7487 2.66604 15.0727 1.99609L13.278 0.217309Z" fill="currentColor" />
+                  </svg>
+                </span>
+              </span>
+            </a>
+
+            <a class="home-case-card home-case-card--image-bg" href="https://k2.cloud/" target="_blank" rel="noopener noreferrer" aria-label="Перейти на сайт K2 Cloud">
+              <img class="home-case-card__bg" src="./assets/figma/Casek2cloud.png" alt="" />
+              <span class="home-case-card__visual" aria-hidden="true">
+                <img class="home-case-card__object" src="./assets/figma/k2cloud.png" alt="" />
+              </span>
+              <span class="home-case-card__title">
+                <span>K2 CLOUD,</span>
+                <span>корпоративный сайт</span>
+              </span>
+              <span class="home-case-card__description">
+                Разработал часть&nbsp;компонентов, а&nbsp;также разделы: Мероприятия, Статьи, Новости
+              </span>
+              <span class="home-case-card__year">2025</span>
+              <span class="home-case-card__button ui-button ui-button--l ui-button--white">
+                Перейти на&nbsp;сайт
+                <span class="ui-button__icon" aria-hidden="true">
+                  <svg class="ui-button__icon-svg" viewBox="0 0 17.5 11.5" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                    <path d="M13.278 0.217309C12.9838 -0.0742744 12.5089 -0.0721557 12.2173 0.222041C11.9257 0.516238 11.9278 0.991107 12.222 1.28269L13.985 3.03C14.7005 3.73914 15.1913 4.22718 15.5234 4.64071C15.6313 4.77509 15.7155 4.8934 15.7809 5L0.75 5C0.335786 5 0 5.33579 0 5.75C0 6.16422 0.335786 6.5 0.75 6.5L15.7809 6.5C15.7155 6.6066 15.6313 6.72491 15.5234 6.85929C15.1913 7.27282 14.7005 7.76086 13.985 8.47L12.222 10.2173C11.9278 10.5089 11.9257 10.9838 12.2173 11.278C12.5089 11.5722 12.9838 11.5743 13.278 11.2827L15.0727 9.5039C15.7487 8.83395 16.3011 8.28641 16.6929 7.79854C17.1004 7.29121 17.3953 6.77628 17.4741 6.15816C17.4914 6.02265 17.5 5.88632 17.5 5.75C17.5 5.61368 17.4914 5.47735 17.4741 5.34184C17.3953 4.72372 17.1004 4.20878 16.6929 3.70146C16.3011 3.21358 15.7487 2.66604 15.0727 1.99609L13.278 0.217309Z" fill="currentColor" />
+                  </svg>
+                </span>
+              </span>
+            </a>
+
+            <a class="home-case-card home-case-card--image-bg home-case-card--dark" href="https://segmenta-flavours.com/ru" target="_blank" rel="noopener noreferrer" aria-label="Перейти на сайт Segmenta">
+              <img class="home-case-card__bg" src="./assets/figma/segmenta.png" alt="" />
+              <span class="home-case-card__visual" aria-hidden="true">
+                <img class="home-case-card__object" src="./assets/figma/segmenta_img.png" alt="" />
+              </span>
+              <span class="home-case-card__title">
+                <span>Segmenta,</span>
+                <span>корпоративный сайт</span>
+              </span>
+              <span class="home-case-card__year">2025</span>
+              <span class="home-case-card__button ui-button ui-button--l ui-button--white">
+                Перейти на&nbsp;сайт
+                <span class="ui-button__icon" aria-hidden="true">
+                  <svg class="ui-button__icon-svg" viewBox="0 0 17.5 11.5" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                    <path d="M13.278 0.217309C12.9838 -0.0742744 12.5089 -0.0721557 12.2173 0.222041C11.9257 0.516238 11.9278 0.991107 12.222 1.28269L13.985 3.03C14.7005 3.73914 15.1913 4.22718 15.5234 4.64071C15.6313 4.77509 15.7155 4.8934 15.7809 5L0.75 5C0.335786 5 0 5.33579 0 5.75C0 6.16422 0.335786 6.5 0.75 6.5L15.7809 6.5C15.7155 6.6066 15.6313 6.72491 15.5234 6.85929C15.1913 7.27282 14.7005 7.76086 13.985 8.47L12.222 10.2173C11.9278 10.5089 11.9257 10.9838 12.2173 11.278C12.5089 11.5722 12.9838 11.5743 13.278 11.2827L15.0727 9.5039C15.7487 8.83395 16.3011 8.28641 16.6929 7.79854C17.1004 7.29121 17.3953 6.77628 17.4741 6.15816C17.4914 6.02265 17.5 5.88632 17.5 5.75C17.5 5.61368 17.4914 5.47735 17.4741 5.34184C17.3953 4.72372 17.1004 4.20878 16.6929 3.70146C16.3011 3.21358 15.7487 2.66604 15.0727 1.99609L13.278 0.217309Z" fill="currentColor" />
+                  </svg>
+                </span>
+              </span>
+            </a>
+          </div>
+        </section>
+
+        <section class="home-competitions" aria-labelledby="competitions-title">
+          <h2 id="competitions-title">Конкурсные работы <sup>2</sup></h2>
+          <div class="home-competitions__list">
+            <article class="home-competition-card">
+              <img class="home-competition-card__bg" src="./assets/figma/Casebgmatch.png" alt="" />
+              <div class="home-competition-card__media" aria-label="Видео МАТЧ ТВ">
+                <iframe src="https://kinescope.io/embed/whQ1h3P5AUVNYVxtYrHwBj" title="МАТЧ ТВ, эфирная айдентика" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" frameborder="0" allowfullscreen width="1920" height="1080" loading="lazy"></iframe>
+              </div>
+              <h3 class="home-competition-card__title">
+                <span>МАТЧ ТВ,</span>
+                <span>эфирная айдентика</span>
+              </h3>
+              <p class="home-competition-card__year">2025</p>
+              <div class="home-competition-card__place" role="button" tabindex="0" aria-expanded="false">
+                <img class="home-competition-card__place-icon" src="./assets/figma/competition-cup-star.svg" alt="" />
+                <div class="home-competition-card__place-content">
+                  <div class="home-competition-card__place-summary">
+                    <p>2 место</p>
+                    <span>Номинация «Мультимедийный дизайн»</span>
+                  </div>
+                  <div class="home-competition-card__place-details">
+                    <div class="home-competition-card__place-details-inner">
+                      <p class="home-competition-card__place-contest">Международный конкурс<br />"ДИЗАЙН-ДИАЛОГ 25"</p>
+                      <a class="home-competition-card__place-link" href="https://конкурсы.рф/contests/4xdOx4" target="_blank" rel="noopener noreferrer" aria-label="Страница конкурса МАТЧ ТВ">
+                        Страница конкурса
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <span class="home-competition-card__place-chevron" aria-hidden="true"></span>
+              </div>
+            </article>
+
+            <article class="home-competition-card">
+              <img class="home-competition-card__bg" src="./assets/figma/bgmars.png" alt="" />
+              <div class="home-competition-card__media" aria-label="Видео МАРС">
+                <iframe src="https://kinescope.io/embed/pUuD19PYB5zpZBW5cvS88i" title="МАРС, лендинг" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" frameborder="0" allowfullscreen width="1920" height="1080" loading="lazy"></iframe>
+              </div>
+              <h3 class="home-competition-card__title">
+                <span>МАРС,</span>
+                <span>лендинг</span>
+              </h3>
+              <p class="home-competition-card__year">2024</p>
+              <div class="home-competition-card__place" role="button" tabindex="0" aria-expanded="false">
+                <img class="home-competition-card__place-icon" src="./assets/figma/competition-cup-star.svg" alt="" />
+                <div class="home-competition-card__place-content">
+                  <div class="home-competition-card__place-summary">
+                    <p>1 место</p>
+                    <span>Номинация «WEB-design»</span>
+                  </div>
+                  <div class="home-competition-card__place-details">
+                    <div class="home-competition-card__place-details-inner">
+                      <p class="home-competition-card__place-contest">Международный фестиваль дизайна «Красный проспект»</p>
+                      <a class="home-competition-card__place-link" href="https://nsuada.ru/about_the_university/news/3286/" target="_blank" rel="noopener noreferrer" aria-label="Страница конкурса МАРС">
+                        Страница конкурса
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <span class="home-competition-card__place-chevron" aria-hidden="true"></span>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="home-footer" id="contacts">
+        <div class="home-footer__top">
+          <div class="home-footer__copyright">
+            <p>© 2025 Eldar Galiamov</p>
+            <a class="home-footer__button ui-button ui-button--m ui-button--white" href="https://t.me/eldarglmv" target="_blank" rel="noopener noreferrer">Telegram</a>
+          </div>
+          <div class="home-footer__contact">
+            <p>@eldarglmv</p>
+            <a href="mailto:eldargaliamov19@gmail.com" target="_blank" rel="noopener noreferrer">eldargaliamov19@gmail.com</a>
+            <nav class="home-footer__links" aria-label="Социальные ссылки">
+              <a href="./privacy.html">Конфиденциальность</a>
+              <a href="https://t.me/eldarglmv" target="_blank" rel="noopener noreferrer">Telegram <svg class="home-footer__external-icon" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M4.37504 9.37482V2.13376L1.06708 5.44171C0.822996 5.68578 0.427009 5.68578 0.182929 5.44171C-0.0609475 5.19764 -0.0610054 4.80212 0.182929 4.55809L4.55815 0.1829L4.60575 0.140001C4.85117 -0.0600215 5.21299 -0.0457028 5.44177 0.1829L9.81698 4.55809C10.061 4.80214 10.061 5.19762 9.81698 5.44171C9.5729 5.68578 9.17744 5.68578 8.93336 5.44171L5.62488 2.13324V9.37482C5.62488 9.71995 5.34532 9.99991 5.00022 10C4.65504 10 4.37504 9.72 4.37504 9.37482Z" fill="currentColor" /></svg></a>
+            </nav>
+          </div>
+        </div>
+        <img class="home-footer__mark" src="./assets/figma/home-footer-mark.svg" alt="Eldar.GLMV" />
+      </footer>
+    </div>
+    <script src="./scripts/smoothscroll.js"></script>
+    <script src="./scripts/home-page.js"></script>
   </body>
 </html>

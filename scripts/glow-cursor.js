@@ -297,8 +297,8 @@ const fromHsv = (hue, saturation, value) => {
 
 function mountGlowCursor(container, canvas) {
   const settings = {
-    color: '#2816f9', secondaryColor: '', intensity: 1.3, trailWidth: 7,
-    linger: 2, glow: 1.6, hotspot: 0.8, followSpeed: 0.6, grain: 0,
+    color: '#5effc4', secondaryColor: '', intensity: 0.3, trailWidth: 1,
+    linger: 2.4, glow: 0.7, hotspot: 0.8, followSpeed: 0.6, grain: 0,
     clickBurst: true, quality: 'high', theme: 'dark', maxDevicePixelRatio: 2, enabled: true
   };
     const gl = canvas?.getContext('webgl2', {
@@ -910,16 +910,8 @@ const button = document.createElement('button');
 button.type = 'button';
 button.className = 'glow-cursor-toggle';
 button.setAttribute('aria-label', 'Свечение курсора');
-const footer = document.querySelector('.scene-footer');
-if (footer) {
-  const controls = document.createElement('div');
-  controls.className = 'scene-controls';
-  controls.append(button, document.querySelector('.motion-toggle'));
-  footer.append(controls);
-} else {
-  button.classList.add('glow-cursor-toggle--floating');
-  document.body.append(button);
-}
+button.classList.add('glow-cursor-toggle--floating');
+document.body.append(button);
 
 function sync() {
   const allowed = finePointer.matches && !reducedMotion.matches;
