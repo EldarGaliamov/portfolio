@@ -54,26 +54,43 @@ document.querySelectorAll('[data-work-stack]').forEach(stack => {
 
     const x = event.clientX - drag.x;
     const y = event.clientY - drag.y;
-    if (Math.hypot(x, y) < 4 && !drag.card.classList.contains('is-grabbed')) return;
-    drag.card.classList.add('is-grabbed');
-    drag.card.style.setProperty('--drag-x', `${resist(x, drag.maxX, 170)}px`);
-    drag.card.style.setProperty('--drag-y', `${resist(y, drag.maxY, 150)}px`);
+    const { card, maxX, maxY } = drag;
+    if (!drag.origin) {
+      if (Math.hypot(x, y) < 4) return;
+      const transform = new DOMMatrixReadOnly(getComputedStyle(card).transform);
+      drag.origin = { x: transform.e + card.offsetWidth / 2, y: transform.f + card.offsetHeight / 2 };
+      card.classList.add('is-grabbed');
+    }
+    drag.heldX = resist(drag.origin.x + x, maxX, 170);
+    card.style.setProperty('--drag-x', `${drag.heldX}px`);
+    card.style.setProperty('--drag-y', `${resist(drag.origin.y + y, maxY, 150)}px`);
   });
 
   function endDrag(event) {
     if (drag?.id !== event.pointerId) return;
 
-    const { card, x, y, maxX } = drag;
-    const distance = Math.hypot(event.clientX - x, event.clientY - y);
-    const threshold = clamp(maxX * 0.85, 30, 110);
+    const { card, x, y, maxX, maxY, heldX } = drag;
+    const dx = event.clientX - x;
+    const dy = event.clientY - y;
+    const dragged = heldX !== undefined;
+    const tap = !dragged && Math.hypot(dx, dy) < 6;
+    const farEnough = Math.hypot(
+      dx / clamp(maxX * 0.85, 30, 110),
+      dy / clamp(maxY * 0.85, 30, 110)
+    ) >= 1;
     drag = null;
 
-    if (card.classList.contains('is-grabbed')) {
+    if (dragged) {
       // Commit the held position so even a quick release springs from the pointer.
       getComputedStyle(card).transform;
     }
     resetDrag(card);
-    if (event.type === 'pointerup' && (distance < 6 || distance >= threshold)) {
+    if (event.type === 'pointerup' && (tap || farEnough)) {
+      if (dragged && farEnough) {
+        // Keep the drop's horizontal side, scaled to fit if the viewport changes.
+        const limit = Math.min(170, maxX);
+        card.style.setProperty('--stack-side', limit > 0 ? clamp(heldX / limit, -1, 1) : 0);
+      }
       advance();
     }
   }
