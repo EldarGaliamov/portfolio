@@ -1,98 +1,169 @@
 document.querySelectorAll('[data-work-stack]').forEach(stack => {
   const stage = stack.querySelector('.work-stack__stage');
-  const cards = Array.from(stage.querySelectorAll('.work-stack__card'));
   const title = stack.querySelector('[data-stack-title]');
   const next = stack.querySelector('[data-stack-next]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const cards = Array.from(stage.querySelectorAll('.work-stack__card'), (element, depth) => ({
+    element, x: 0, y: depth * 12, frames: {},
+  }));
   let drag = null;
 
   const clamp = (value, min, max) => Math.max(min, Math.min(value, max));
 
-  function resist(offset, limit, referenceLimit) {
-    const softLimit = Math.min(referenceLimit, limit * 0.87);
-    const distance = Math.abs(offset);
-    return Math.sign(offset) * Math.min(
-      limit,
-      distance <= softLimit ? distance : softLimit + (distance - softLimit) * 0.18
-    );
+  function bounds(card) {
+    const room = (available, size) => Math.max(0, (available - size * 1.04) / 2 - 8);
+    const x = room(stage.clientWidth, card.element.offsetWidth);
+    const y = room(stage.clientHeight, card.element.offsetHeight);
+    return { x, y, leftRight: Math.min(170, x * 0.92), upDown: Math.min(150, y * 0.92) };
   }
 
-  function resetDrag(card) {
-    card.classList.remove('is-grabbed');
-    card.style.removeProperty('--drag-x');
-    card.style.removeProperty('--drag-y');
+  function resist(value, limit, room) {
+    const distance = Math.abs(value);
+    return Math.sign(value) * Math.min(room, distance <= limit ? distance : limit + (distance - limit) * 0.18);
   }
 
-  function showCard(card, position) {
-    card.dataset.position = position;
-    if (position === 0) {
-      card.removeAttribute('aria-hidden');
-      title.textContent = card.dataset.title;
-    } else {
-      card.setAttribute('aria-hidden', 'true');
+  function place(card, axis, value) {
+    card[axis] = value;
+    card.element.style.setProperty('--card-' + axis, value + 'px');
+  }
+
+  function stop(card, axis) {
+    cancelAnimationFrame(card.frames[axis]);
+    delete card.frames[axis];
+  }
+
+  function animate(card, axis, target, duration, sample) {
+    stop(card, axis);
+    const from = card[axis];
+    if (reducedMotion.matches || Math.abs(from - target) < 0.2) {
+      place(card, axis, target);
+      return;
     }
+    const start = performance.now();
+    function frame(now) {
+      const elapsed = now - start;
+      if (elapsed >= duration || reducedMotion.matches) {
+        delete card.frames[axis];
+        place(card, axis, target);
+      } else {
+        place(card, axis, sample(elapsed));
+        card.frames[axis] = requestAnimationFrame(frame);
+      }
+    }
+    card.frames[axis] = requestAnimationFrame(frame);
+  }
+
+  function springTo(card, axis, target) {
+    const from = card[axis];
+    const frequency = Math.sqrt(280 - 12 ** 2);
+    animate(card, axis, target, 490, elapsed => {
+      const t = elapsed / 1000;
+      const decay = Math.exp(-12 * t) * (Math.cos(frequency * t) + 12 / frequency * Math.sin(frequency * t));
+      return target + (from - target) * decay;
+    });
+  }
+
+  function coast(card, axis, velocity, limit) {
+    const from = card[axis];
+    const amplitude = 0.8 * velocity;
+    const target = clamp(from + amplitude, -limit, limit);
+    if (Math.abs(from) > limit) {
+      springTo(card, axis, clamp(from, -limit, limit));
+      return;
+    }
+    if (Math.abs(amplitude) < 1) return;
+
+    const fraction = (target - from) / amplitude;
+    const duration = fraction < 1
+      ? -750 * Math.log(1 - fraction)
+      : Math.min(2600, 750 * Math.log(Math.abs(amplitude)));
+    animate(card, axis, target, duration, elapsed => from + amplitude * (1 - Math.exp(-elapsed / 750)));
   }
 
   function advance() {
     if (drag) return;
     cards.push(cards.shift());
-    cards.forEach(showCard);
+    cards.forEach((card, depth) => {
+      const { element } = card;
+      element.dataset.position = depth;
+      springTo(card, 'y', depth * 12);
+      if (depth === 0) {
+        element.removeAttribute('aria-hidden');
+        title.textContent = element.dataset.title;
+      } else {
+        element.setAttribute('aria-hidden', 'true');
+      }
+    });
   }
 
   stage.addEventListener('pointerdown', event => {
-    if (drag || !event.isPrimary || event.button !== 0) return;
+    if (drag || reducedMotion.matches || !event.isPrimary || event.button !== 0) return;
     const card = cards[0];
-    if (event.target.closest('.work-stack__card') !== card) return;
-    const maxX = Math.max(0, (stage.clientWidth - card.offsetWidth * 1.04) / 2 - 8);
-    const maxY = Math.max(0, (stage.clientHeight - card.offsetHeight * 1.04) / 2 - 8);
-    drag = { id: event.pointerId, x: event.clientX, y: event.clientY, card, maxX, maxY };
+    if (event.target.closest('.work-stack__card') !== card.element) return;
+    stop(card, 'x');
+    stop(card, 'y');
+    drag = {
+      id: event.pointerId, card, startX: event.clientX, startY: event.clientY,
+      originX: card.x, originY: card.y, limits: bounds(card), samples: [], moved: false,
+    };
     stage.setPointerCapture(event.pointerId);
   });
 
+  function sample(event) {
+    const points = drag.samples;
+    points.push({ x: event.clientX, y: event.clientY, time: event.timeStamp });
+    while (points.length > 1 && event.timeStamp - points[0].time > 100) points.shift();
+  }
+
+  function move(event) {
+    const { card, limits, originX, originY, startX, startY } = drag;
+    const dx = event.clientX - startX;
+    const dy = event.clientY - startY;
+    if (!drag.moved && Math.hypot(dx, dy) < 3) return;
+    if (!drag.moved) {
+      drag.moved = true;
+      card.element.classList.add('is-grabbed');
+    }
+    place(card, 'x', resist(originX + dx, limits.leftRight, limits.x));
+    place(card, 'y', resist(originY + dy, limits.upDown, limits.y));
+  }
+
   stage.addEventListener('pointermove', event => {
     if (drag?.id !== event.pointerId || reducedMotion.matches) return;
-
-    const x = event.clientX - drag.x;
-    const y = event.clientY - drag.y;
-    const { card, maxX, maxY } = drag;
-    if (!drag.origin) {
-      if (Math.hypot(x, y) < 4) return;
-      const transform = new DOMMatrixReadOnly(getComputedStyle(card).transform);
-      drag.origin = { x: transform.e + card.offsetWidth / 2, y: transform.f + card.offsetHeight / 2 };
-      card.classList.add('is-grabbed');
-    }
-    drag.heldX = resist(drag.origin.x + x, maxX, 170);
-    card.style.setProperty('--drag-x', `${drag.heldX}px`);
-    card.style.setProperty('--drag-y', `${resist(drag.origin.y + y, maxY, 150)}px`);
+    sample(event);
+    move(event);
   });
 
   function endDrag(event) {
     if (drag?.id !== event.pointerId) return;
 
-    const { card, x, y, maxX, maxY, heldX } = drag;
-    const dx = event.clientX - x;
-    const dy = event.clientY - y;
-    const dragged = heldX !== undefined;
-    const tap = !dragged && Math.hypot(dx, dy) < 6;
-    const farEnough = Math.hypot(
-      dx / clamp(maxX * 0.85, 30, 110),
-      dy / clamp(maxY * 0.85, 30, 110)
-    ) >= 1;
+    const released = event.type === 'pointerup' && !reducedMotion.matches;
+    if (released) {
+      sample(event);
+      move(event);
+    }
+    const { card, startX, startY, originX, originY, limits, samples, moved } = drag;
     drag = null;
+    card.element.classList.remove('is-grabbed');
+    if (!moved) return;
+    if (!released) {
+      springTo(card, 'x', originX);
+      springTo(card, 'y', originY);
+      return;
+    }
 
-    if (dragged) {
-      // Commit the held position so even a quick release springs from the pointer.
-      getComputedStyle(card).transform;
-    }
-    resetDrag(card);
-    if (event.type === 'pointerup' && (tap || farEnough)) {
-      if (dragged && farEnough) {
-        // Keep the drop's horizontal side, scaled to fit if the viewport changes.
-        const limit = Math.min(170, maxX);
-        card.style.setProperty('--stack-side', limit > 0 ? clamp(heldX / limit, -1, 1) : 0);
-      }
-      advance();
-    }
+    const first = samples[0];
+    const seconds = (event.timeStamp - first.time) / 1000;
+    const vx = seconds >= 0.012 ? (event.clientX - first.x) / seconds : 0;
+    const vy = seconds >= 0.012 ? (event.clientY - first.y) / seconds : 0;
+    const threshold = clamp(Math.min(limits.leftRight, limits.upDown) * 0.85, 26, 90);
+    const reorder = Math.hypot(event.clientX - startX, event.clientY - startY) >= threshold;
+
+    // The reference keeps horizontal momentum through a reorder. Its vertical
+    // position springs to the new depth only when the order actually changes.
+    coast(card, 'x', vx, limits.leftRight);
+    if (reorder) advance();
+    else coast(card, 'y', vy, limits.upDown);
   }
 
   stage.addEventListener('pointerup', endDrag);
@@ -102,4 +173,16 @@ document.querySelectorAll('[data-work-stack]').forEach(stack => {
   next.hidden = false;
   stack.querySelector('[data-stack-hint]').hidden = false;
   stack.setAttribute('data-ready', '');
+
+  new ResizeObserver(() => {
+    if (drag) return;
+    for (const card of cards) {
+      const limits = bounds(card);
+      for (const [axis, limit] of [['x', limits.leftRight], ['y', Math.max(24, limits.upDown)]]) {
+        if (Math.abs(card[axis]) <= limit) continue;
+        stop(card, axis);
+        place(card, axis, clamp(card[axis], -limit, limit));
+      }
+    }
+  }).observe(stage);
 });

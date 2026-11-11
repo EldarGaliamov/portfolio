@@ -226,33 +226,25 @@
 .work-stack__stage {
   /* Sampled from the reference spring (stiffness 280, damping 24). */
   --stack-spring: linear(0, 0.129, 0.381, 0.629, 0.82, 0.943, 1.009, 1.035, 1.039, 1.032, 1.021, 1.012, 1.005, 1.001, 1);
-  --stack-card-width: min(66cqw, 620px);
   position: relative;
-  aspect-ratio: 1.65;
-  container-type: inline-size;
+  aspect-ratio: 1.5;
   isolation: isolate;
 }
 
 .work-stack__card {
-  --stack-x-limit: clamp(0px, calc((100cqw - var(--stack-card-width) * 1.04) / 2 - 8px), 170px);
-  --stack-x: calc(var(--stack-side, 0) * var(--stack-x-limit));
   position: absolute;
   top: 50%;
   left: 50%;
   z-index: var(--stack-layer, 3);
-  width: var(--stack-card-width);
+  width: min(59%, 560px);
   aspect-ratio: 1.84;
   overflow: hidden;
   border: 1px solid rgb(45 45 45 / 12%);
   border-radius: clamp(10px, 1.4vw, 18px);
   background: var(--panel);
   box-shadow: 0 8px 24px rgb(25 35 30 / 10%);
-  transform: translate(
-      calc(-50% + var(--drag-x, var(--stack-x))),
-      calc(-50% + var(--drag-y, var(--stack-y, 0px)))
-    )
-    rotate(var(--stack-angle, 0deg))
-    scale(var(--stack-scale, 1));
+  translate: calc(-50% + var(--card-x, 0px)) calc(-50% + var(--card-y, var(--stack-y, 0px)));
+  transform: rotate(var(--stack-angle, 0deg)) scale(var(--stack-scale, 1));
   transition: transform 490ms var(--motion-smooth);
   transition-timing-function: var(--stack-spring);
 }
@@ -288,8 +280,8 @@
 
 .work-stack[data-ready] .work-stack__card.is-grabbed {
   --stack-scale: 1.04;
+  z-index: 4;
   cursor: grabbing;
-  transition: none;
 }
 
 .work-stack__card img {
@@ -325,7 +317,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-inline: max(17%, calc((100% - 620px) / 2));
+  margin-inline: max(20.5%, calc((100% - 560px) / 2));
 }
 
 .work-stack__title,
@@ -380,8 +372,11 @@
   }
 
   .work-stack__stage {
-    --stack-card-width: 72cqw;
-    aspect-ratio: 1.3;
+    aspect-ratio: 1.15;
+  }
+
+  .work-stack__card {
+    width: 64%;
   }
 
   .work-stack__caption {
