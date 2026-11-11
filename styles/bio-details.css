@@ -119,17 +119,24 @@
   left: calc(50% - 9px);
   width: 18px;
   height: 18px;
-  border: 1px solid var(--ink);
+}
+
+.bio-detail__ball::before,
+.bio-detail__ball::after {
+  position: absolute;
   border-radius: 50%;
+  content: "";
+}
+
+.bio-detail__ball::before {
+  inset: 0;
+  border: 1px solid var(--ink);
   background: var(--page);
 }
 
 .bio-detail__ball::after {
-  position: absolute;
-  inset: 4px 3px 3px 4px;
-  border-radius: 50%;
+  inset: 5px 4px 4px 5px;
   background: var(--ink);
-  content: "";
 }
 
 .bio-detail__ground {
@@ -467,6 +474,11 @@
       bio-ball-squash var(--ball-bounce-duration) var(--motion-sharp);
   }
 
+  .bio-detail.is-playing .bio-detail__ball::before,
+  .bio-detail.is-playing .bio-detail__ball::after {
+    animation: bio-ball-blink var(--ball-bounce-duration) var(--motion-smooth);
+  }
+
   .bio-detail.is-playing .bio-detail__ground {
     animation: bio-ball-shadow var(--ball-bounce-duration) var(--motion-sharp);
   }
@@ -531,6 +543,11 @@
     60% { transform: scale(1.19, 0.77); }
     65% { transform: scale(0.96, 1.04); }
     92% { transform: scale(1.09, 0.88); }
+  }
+
+  @keyframes bio-ball-blink {
+    0%, 53%, 67%, 100% { transform: scaleY(1); }
+    58%, 61% { transform: scaleY(0.16); }
   }
 
   @keyframes bio-ball-shadow {
