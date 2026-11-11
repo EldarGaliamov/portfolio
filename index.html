@@ -20,6 +20,7 @@
     <script src="./scripts/vendor/lenis.min.js" defer></script>
     <script src="./scripts/scroll-motion.js" defer></script>
     <script src="./scripts/bio-details.js" defer></script>
+    <script src="./scripts/work-stack.js" defer></script>
     <script src="./scripts/vendor/gsap.min.js" defer></script>
     <script src="./scripts/vendor/ScrollTrigger.min.js" defer></script>
     <script src="./scripts/animations.js" defer></script>
@@ -158,9 +159,32 @@
         </section>
 
         <section class="home-collaboration" aria-labelledby="collaboration-title">
-          <h2 class="home-section-title" id="collaboration-title">С чем могу помочь</h2>
-          <p>Открыт к небольшим проектам и разовым задачам. Могу спроектировать интерфейс, собрать кликабельный прототип или сделать 3D и анимацию для продукта.</p>
-          <a class="ui-button ui-button--m ui-button--black" href="https://t.me/eldarglmv" target="_blank" rel="noopener noreferrer">Написать в Telegram</a>
+          <div class="home-collaboration__copy">
+            <h2 class="home-section-title" id="collaboration-title">С чем могу помочь</h2>
+            <p>Открыт к небольшим проектам и разовым задачам. Могу спроектировать интерфейс, собрать кликабельный прототип или сделать 3D и анимацию для продукта.</p>
+            <a class="ui-button ui-button--m ui-button--black" href="https://t.me/eldarglmv" target="_blank" rel="noopener noreferrer">Написать в Telegram</a>
+          </div>
+
+          <figure class="work-stack" data-work-stack aria-label="Подборка макетов">
+            <div class="work-stack__stage">
+              <div class="work-stack__card" data-position="0" data-title="«Цветной»">
+                <img src="./assets/figma/ecard-amount.png" alt="Экран выбора оформления электронной подарочной карты" loading="lazy" decoding="async" draggable="false" />
+              </div>
+              <div class="work-stack__card work-stack__card--k2" data-position="1" data-title="K2 Cloud" aria-hidden="true">
+                <img src="./assets/figma/k2cloud.png" alt="Главная страница K2 Cloud" loading="lazy" decoding="async" draggable="false" />
+              </div>
+              <div class="work-stack__card work-stack__card--segmenta" data-position="2" data-title="Segmenta" aria-hidden="true">
+                <img src="./assets/figma/segmenta_img.png" alt="Главная страница Segmenta" loading="lazy" decoding="async" draggable="false" />
+              </div>
+            </div>
+            <figcaption class="work-stack__caption">
+              <span>
+                <span class="work-stack__title" data-stack-title aria-live="polite">«Цветной»</span>
+                <span class="work-stack__hint" data-stack-hint hidden>Потяни верхнюю карточку в сторону</span>
+              </span>
+              <button class="work-stack__next" type="button" data-stack-next aria-label="Следующий макет" hidden>→</button>
+            </figcaption>
+          </figure>
         </section>
 
         <section class="home-competitions" aria-labelledby="competitions-title">
