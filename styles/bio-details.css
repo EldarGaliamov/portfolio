@@ -58,15 +58,16 @@
   --cube-depth: calc(var(--cube-edge) / 2);
   --cube-open-depth: calc(var(--cube-edge) * 0.96);
   --cube-open-scale: 0.82;
-  --cube-side: #d6d6d6;
+  --cube-glass-side: color-mix(in srgb, var(--ink) 16%, transparent);
   transform: rotateX(-28deg) rotateY(37deg);
 }
 
 .bio-detail__face {
+  --cube-glass-tint: color-mix(in srgb, var(--panel) 42%, transparent);
   inset: 0;
-  border: 1px solid var(--ink);
-  background: var(--panel);
-  backface-visibility: hidden;
+  border: 1px solid color-mix(in srgb, var(--ink) 76%, transparent);
+  background: linear-gradient(145deg, rgb(255 255 255 / 55%), transparent 56%), var(--cube-glass-tint);
+  box-shadow: inset 0 1px rgb(255 255 255 / 62%);
   transform: var(--face-rotation) translateZ(var(--cube-depth));
 }
 
@@ -80,22 +81,22 @@
 
 .bio-detail__face--top {
   --face-rotation: rotateX(90deg);
-  background: var(--page);
+  --cube-glass-tint: color-mix(in srgb, var(--page) 28%, transparent);
 }
 
 .bio-detail__face--left {
   --face-rotation: rotateY(-90deg);
-  background: var(--cube-side);
+  --cube-glass-tint: var(--cube-glass-side);
 }
 
 .bio-detail__face--right {
   --face-rotation: rotateY(90deg);
-  background: var(--cube-side);
+  --cube-glass-tint: var(--cube-glass-side);
 }
 
 .bio-detail__face--bottom {
   --face-rotation: rotateX(-90deg);
-  background: var(--cube-side);
+  --cube-glass-tint: var(--cube-glass-side);
 }
 
 .bio-detail__orbit {
@@ -433,7 +434,6 @@
   }
 
   .bio-detail.is-playing .bio-detail__face {
-    backface-visibility: visible;
     animation: bio-cube-explode 800ms var(--motion-sharp);
   }
 
