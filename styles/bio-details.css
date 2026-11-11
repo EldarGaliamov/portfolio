@@ -5,7 +5,7 @@
 .bio-detail {
   position: relative;
   display: inline-grid;
-  width: 26px;
+  width: 32px;
   height: 26px;
   margin-inline-start: 3px;
   padding: 0;
@@ -22,34 +22,14 @@
   display: none;
 }
 
-.bio-detail::before {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--panel);
-  content: "";
-  opacity: 0;
-}
-
-.bio-detail:active::before,
-.bio-detail:focus-visible::before {
-  opacity: 1;
-}
-
 .bio-detail:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .bio-detail:hover::before {
-    opacity: 1;
-  }
-}
-
 .bio-detail__card {
   position: relative;
-  width: 20px;
+  width: 26px;
   aspect-ratio: 182 / 114;
   overflow: hidden;
   border-radius: 2px;
@@ -68,77 +48,88 @@
 .bio-detail__cube,
 .bio-detail__face {
   position: absolute;
-  width: 8px;
-  height: 8px;
-  border: 1px solid var(--ink);
-  background: #dce4e0;
+  width: 10px;
+  height: 10px;
   transform-style: preserve-3d;
 }
 
 .bio-detail__cube {
-  transform: rotateX(54deg) rotateZ(-36deg);
+  transform: rotateX(-28deg) rotateY(37deg);
 }
 
 .bio-detail__face {
-  transform: var(--folded);
+  inset: 0;
+  border: 1px solid var(--ink);
+  background: #dce4e0;
+  backface-visibility: hidden;
+  transform: var(--face-rotation) translateZ(5px);
+}
+
+.bio-detail__face--front {
+  --face-rotation: rotateY(0deg);
+  background: #eff4f1;
+}
+
+.bio-detail__face--back {
+  --face-rotation: rotateY(180deg);
 }
 
 .bio-detail__face--top {
-  --folded: rotateX(-90deg);
-  bottom: calc(100% + 1px);
-  left: -1px;
-  background: #d4ded8;
-  transform-origin: bottom;
-}
-
-.bio-detail__face--left {
-  --folded: rotateY(90deg);
-  top: -1px;
-  right: calc(100% + 1px);
-  background: #eff4f1;
-  transform-origin: right;
-}
-
-.bio-detail__face--right,
-.bio-detail__face--lid {
-  --folded: rotateY(-90deg);
-  top: -1px;
-  left: calc(100% + 1px);
-  transform-origin: left;
-}
-
-.bio-detail__face--right {
-  background: #a9bdb2;
-}
-
-.bio-detail__face--lid {
+  --face-rotation: rotateX(90deg);
   background: #f9fbfa;
 }
 
+.bio-detail__face--left {
+  --face-rotation: rotateY(-90deg);
+  background: #bfd0c7;
+}
+
+.bio-detail__face--right {
+  --face-rotation: rotateY(90deg);
+  background: #a9bdb2;
+}
+
 .bio-detail__face--bottom {
-  --folded: rotateX(90deg);
-  top: calc(100% + 1px);
-  left: -1px;
-  transform-origin: top;
+  --face-rotation: rotateX(-90deg);
+  background: #a9bdb2;
+}
+
+.bio-detail__orbit {
+  position: absolute;
+  inset: 0;
 }
 
 .bio-detail__ball,
-.bio-detail__ground {
+.bio-detail__ground,
+.bio-detail__trail {
   position: absolute;
   background: currentColor;
 }
 
 .bio-detail__ball {
   bottom: 7px;
-  width: 8px;
-  height: 8px;
+  left: calc(50% - 5px);
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  transform-origin: center bottom;
+}
+
+.bio-detail__trail {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #468a72;
+  opacity: 0;
+}
+
+.bio-detail__trail--far {
+  width: 3px;
+  height: 3px;
 }
 
 .bio-detail__ground {
   bottom: 5px;
-  width: 14px;
+  width: 18px;
   height: 1px;
   border-radius: 1px;
   opacity: 0.48;
@@ -147,8 +138,8 @@
 .bio-detail__screen {
   position: relative;
   display: grid;
-  width: 18px;
-  height: 15px;
+  width: 24px;
+  height: 18px;
   align-content: center;
   gap: 2px;
   padding: 2px;
@@ -164,22 +155,21 @@
 }
 
 .bio-detail__screen-line {
-  --apart: translate(-4px, -4px) rotate(-12deg);
-  width: 6px;
+  width: 8px;
   height: 1px;
 }
 
 .bio-detail__screen-panel {
-  --apart: translate(4px, -1px) rotate(12deg);
-  height: 3px;
+  --draw-delay: 50ms;
+  height: 4px;
   background: #a9bdb2;
 }
 
 .bio-detail__screen-button {
-  --apart: translate(1px, 5px) rotate(-10deg);
+  --draw-delay: 105ms;
   position: relative;
-  width: 5px;
-  height: 2px;
+  width: 7px;
+  height: 3px;
 }
 
 .bio-detail__screen-button::after {
@@ -188,6 +178,17 @@
   border-radius: inherit;
   background: #fff;
   content: "";
+  opacity: 0;
+}
+
+.bio-detail__scanner {
+  position: absolute;
+  top: 2px;
+  right: 1px;
+  left: 1px;
+  height: 3px;
+  border-radius: 1px;
+  background: linear-gradient(90deg, transparent, #397860, transparent);
   opacity: 0;
 }
 
@@ -224,25 +225,43 @@
   }
 
   .bio-detail.is-playing .bio-detail__cube {
-    animation: bio-cube-tilt 640ms var(--motion-sharp);
+    animation: bio-cube-spin 720ms var(--motion-sharp);
   }
 
   .bio-detail.is-playing .bio-detail__face {
-    animation: bio-cube-fold 640ms var(--motion-sharp);
+    animation: bio-cube-explode 720ms var(--motion-sharp);
   }
 
-  .bio-detail.is-playing .bio-detail__ball {
-    animation: bio-ball-bounce 480ms var(--motion-sharp);
+  .bio-detail.is-playing :is(.bio-detail__ball, .bio-detail__trail) {
+    inset: 0 auto auto 0;
+    offset-path: path("M 16 14 C 7 18 2 7 10 0 C 18 -7 31 -1 28 8 C 26 14 20 17 16 14");
+    offset-rotate: 0deg;
+    animation: bio-dot-orbit 620ms var(--motion-sharp) both,
+      bio-dot-shape 620ms var(--motion-sharp);
+  }
+
+  .bio-detail.is-playing .bio-detail__trail {
+    animation: bio-dot-orbit 620ms var(--motion-sharp) 55ms both,
+      bio-trail-fade 620ms var(--motion-sharp) 55ms both;
+  }
+
+  .bio-detail.is-playing .bio-detail__trail--far {
+    animation-delay: 100ms;
   }
 
   .bio-detail.is-playing .bio-detail__screen-line,
   .bio-detail.is-playing .bio-detail__screen-panel,
   .bio-detail.is-playing .bio-detail__screen-button {
-    animation: bio-screen-assemble 520ms var(--motion-smooth);
+    transform-origin: left;
+    animation: bio-screen-draw 490ms var(--motion-smooth) var(--draw-delay, 0ms) both;
+  }
+
+  .bio-detail.is-playing .bio-detail__scanner {
+    animation: bio-screen-scan 570ms var(--motion-sharp);
   }
 
   .bio-detail.is-playing .bio-detail__screen-button::after {
-    animation: bio-screen-shine 520ms var(--motion-smooth);
+    animation: bio-screen-shine 640ms var(--motion-smooth);
   }
 
   @keyframes bio-card-lift {
@@ -255,29 +274,45 @@
     78%, 100% { transform: translateX(100%); }
   }
 
-  @keyframes bio-cube-tilt {
-    0%, 100% { transform: rotateX(54deg) rotateZ(-36deg); }
-    44%, 60% { transform: translateX(-4px) rotateX(0deg) rotateZ(0deg) scale(0.88); }
+  @keyframes bio-cube-spin {
+    0% { transform: rotateX(-28deg) rotateY(37deg) scale(1); }
+    52% { transform: rotateX(-41deg) rotateY(211deg) scale(1.18); }
+    100% { transform: rotateX(-28deg) rotateY(397deg) scale(1); }
   }
 
-  @keyframes bio-cube-fold {
-    0%, 100% { transform: var(--folded); }
-    44%, 60% { transform: rotateX(0deg); }
+  @keyframes bio-cube-explode {
+    0%, 100% { transform: var(--face-rotation) translateZ(5px); }
+    45% { transform: var(--face-rotation) translateZ(10px); }
   }
 
-  @keyframes bio-ball-bounce {
-    0%, 100% { transform: translateY(0) scale(1); }
-    13%, 77% { transform: translateY(0) scale(1.25, 0.64); }
-    27% { transform: translateY(-6px) scale(0.79, 1.21); }
-    46% { transform: translateY(-11px) scale(1); }
-    64% { transform: translateY(-5px) scale(0.9, 1.12); }
-    88% { transform: translateY(-2px) scale(0.95, 1.06); }
+  @keyframes bio-dot-orbit {
+    from { offset-distance: 0%; }
+    to { offset-distance: 100%; }
   }
 
-  @keyframes bio-screen-assemble {
-    0%, 100% { transform: translate(0); opacity: 1; }
-    28% { transform: var(--apart); opacity: 0.68; }
-    67% { transform: translate(0); opacity: 1; }
+  @keyframes bio-dot-shape {
+    0%, 100% { transform: scale(1); }
+    12% { transform: scale(1.16, 0.84); }
+    45% { transform: scale(1.05); }
+    88% { transform: scale(1.1, 0.9); }
+  }
+
+  @keyframes bio-trail-fade {
+    0%, 100% { opacity: 0; }
+    30%, 72% { opacity: 0.7; }
+  }
+
+  @keyframes bio-screen-draw {
+    0%, 100% { transform: scaleX(1); opacity: 1; }
+    20%, 36% { transform: scaleX(0.2); opacity: 0; }
+    78% { transform: scaleX(1); opacity: 1; }
+  }
+
+  @keyframes bio-screen-scan {
+    0%, 14% { transform: translateY(0); opacity: 0; }
+    26% { opacity: 0.95; }
+    78% { opacity: 0.85; }
+    96%, 100% { transform: translateY(11px); opacity: 0; }
   }
 
   @keyframes bio-screen-shine {
@@ -287,12 +322,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bio-detail.is-playing::before {
+  .bio-detail.is-playing > span:first-child {
     animation: bio-detail-highlight var(--motion-fast) var(--motion-smooth);
   }
 
   @keyframes bio-detail-highlight {
-    from { opacity: 1; }
-    to { opacity: 0; }
+    from { opacity: 0.55; }
+    to { opacity: 1; }
   }
 }
