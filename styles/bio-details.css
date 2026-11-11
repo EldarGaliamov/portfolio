@@ -100,9 +100,6 @@
 }
 
 .bio-detail--orbit {
-  --ball-light: #c3d9e8;
-  --ball-mid: #52788d;
-  --ball-dark: #203b50;
   --ball-bounce-duration: 760ms;
 }
 
@@ -122,9 +119,17 @@
   left: calc(50% - 9px);
   width: 18px;
   height: 18px;
+  border: 1px solid var(--ink);
   border-radius: 50%;
-  background: radial-gradient(circle at 32% 27%, var(--page) 3%, var(--ball-light) 17%, var(--ball-mid) 49%, var(--ball-dark) 85%);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ball-dark) 34%, transparent);
+  background: var(--page);
+}
+
+.bio-detail__ball::after {
+  position: absolute;
+  inset: 4px 3px 3px 4px;
+  border-radius: 50%;
+  background: var(--ink);
+  content: "";
 }
 
 .bio-detail__ground {
@@ -132,7 +137,7 @@
   width: 19px;
   height: 3px;
   border-radius: 50%;
-  background: var(--ball-dark);
+  background: var(--ink);
   opacity: 0.28;
 }
 
