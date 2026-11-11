@@ -14,7 +14,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles/site.css" />
+    <link rel="stylesheet" href="./scripts/vendor/lenis.css" />
+    <link rel="stylesheet" href="./styles/bio-details.css" />
     <script src="./scripts/analytics.js" defer></script>
+    <script src="./scripts/vendor/lenis.min.js" defer></script>
+    <script src="./scripts/scroll-motion.js" defer></script>
+    <script src="./scripts/bio-details.js" defer></script>
     <script src="./scripts/vendor/gsap.min.js" defer></script>
     <script src="./scripts/vendor/ScrollTrigger.min.js" defer></script>
     <script src="./scripts/animations.js" defer></script>
@@ -46,7 +51,9 @@
             <p>Product designer</p>
           </div>
           <p class="home-hero__description">
-            Работаю в&nbsp;<a href="https://metasharks.ru/" target="_blank" rel="noopener noreferrer">Metasharks</a>, сейчас проектирую интерфейсы для&nbsp;крупной страховой компании. Разработал UX/UI сервиса подарочных карт универмага <a href="https://tsvetnoy.com/cards" target="_blank" rel="noopener noreferrer">«Цветной»</a>. Помимо&nbsp;интерфейсов, создаю 3D и&nbsp;анимацию, собираю прототипы с&nbsp;помощью&nbsp;ИИ.
+            Работаю в&nbsp;<a href="https://metasharks.ru/" target="_blank" rel="noopener noreferrer">Metasharks</a>, сейчас проектирую интерфейсы для&nbsp;крупной страховой компании. Разработал UX/UI сервиса подарочных карт универмага <span class="bio-detail-pair"><a href="https://tsvetnoy.com/cards" target="_blank" rel="noopener noreferrer">«Цветной»</a><button class="bio-detail bio-detail--card" type="button" aria-label="Оживить подарочную карту «Цветного»" hidden><span class="bio-detail__card" aria-hidden="true"></span></button>.</span>
+            Помимо&nbsp;интерфейсов, создаю <span class="bio-detail-pair">3D<button class="bio-detail bio-detail--cube" type="button" aria-label="Развернуть куб" hidden><span class="bio-detail__cube" aria-hidden="true"><span class="bio-detail__face bio-detail__face--top"></span><span class="bio-detail__face bio-detail__face--left"></span><span class="bio-detail__face bio-detail__face--right"><span class="bio-detail__face bio-detail__face--lid"></span></span><span class="bio-detail__face bio-detail__face--bottom"></span></span></button></span> и&nbsp;<span class="bio-detail-pair">анимацию<button class="bio-detail bio-detail--bounce" type="button" aria-label="Подбросить точку" hidden><span class="bio-detail__ball" aria-hidden="true"></span><span class="bio-detail__ground" aria-hidden="true"></span></button>,</span>
+            собираю прототипы с&nbsp;помощью&nbsp;<span class="bio-detail-pair">ИИ<button class="bio-detail bio-detail--prototype" type="button" aria-label="Собрать мини-экран" hidden><span class="bio-detail__screen" aria-hidden="true"><span class="bio-detail__screen-line"></span><span class="bio-detail__screen-panel"></span><span class="bio-detail__screen-button"></span></span></button>.</span>
           </p>
           <p class="home-hero__meta">3 года опыта · Личные кабинеты · Бизнес-системы · Дизайн-системы</p>
 
@@ -146,6 +153,12 @@
           </div>
         </section>
 
+        <section class="home-collaboration" aria-labelledby="collaboration-title">
+          <h2 class="home-section-title" id="collaboration-title">С чем могу помочь</h2>
+          <p>Открыт к небольшим проектам и разовым задачам. Могу спроектировать интерфейс, собрать кликабельный прототип или сделать 3D и анимацию для продукта.</p>
+          <a class="ui-button ui-button--m ui-button--black" href="https://t.me/eldarglmv" target="_blank" rel="noopener noreferrer">Написать в Telegram</a>
+        </section>
+
         <section class="home-competitions" aria-labelledby="competitions-title">
           <h2 id="competitions-title">Конкурсные работы <sup>2</sup></h2>
           <div class="home-competitions__list">
@@ -232,7 +245,6 @@
         <img class="home-footer__mark" src="./assets/figma/home-footer-mark.svg" alt="Eldar.GLMV" />
       </footer>
     </div>
-    <script src="./scripts/smoothscroll.js"></script>
     <script src="./scripts/home-page.js"></script>
   </body>
 </html>

@@ -1,0 +1,298 @@
+.bio-detail-pair {
+  white-space: nowrap;
+}
+
+.bio-detail {
+  position: relative;
+  display: inline-grid;
+  width: 26px;
+  height: 26px;
+  margin-inline-start: 3px;
+  padding: 0;
+  place-items: center;
+  vertical-align: middle;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.bio-detail[hidden] {
+  display: none;
+}
+
+.bio-detail::before {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--panel);
+  content: "";
+  opacity: 0;
+}
+
+.bio-detail:active::before,
+.bio-detail:focus-visible::before {
+  opacity: 1;
+}
+
+.bio-detail:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bio-detail:hover::before {
+    opacity: 1;
+  }
+}
+
+.bio-detail__card {
+  position: relative;
+  width: 20px;
+  aspect-ratio: 182 / 114;
+  overflow: hidden;
+  border-radius: 2px;
+  /* The red card in the case study's design picker. */
+  background: #eb2617 url("../assets/figma/ecard-amount.png") 28.31% 61.2% / 1054.95% 859.65% no-repeat;
+}
+
+.bio-detail__card::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 25%, rgb(255 255 255 / 80%) 49%, transparent 70%);
+  content: "";
+  transform: translateX(-100%);
+}
+
+.bio-detail__cube,
+.bio-detail__face {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--ink);
+  background: #dce4e0;
+  transform-style: preserve-3d;
+}
+
+.bio-detail__cube {
+  transform: rotateX(54deg) rotateZ(-36deg);
+}
+
+.bio-detail__face {
+  transform: var(--folded);
+}
+
+.bio-detail__face--top {
+  --folded: rotateX(-90deg);
+  bottom: calc(100% + 1px);
+  left: -1px;
+  background: #d4ded8;
+  transform-origin: bottom;
+}
+
+.bio-detail__face--left {
+  --folded: rotateY(90deg);
+  top: -1px;
+  right: calc(100% + 1px);
+  background: #eff4f1;
+  transform-origin: right;
+}
+
+.bio-detail__face--right,
+.bio-detail__face--lid {
+  --folded: rotateY(-90deg);
+  top: -1px;
+  left: calc(100% + 1px);
+  transform-origin: left;
+}
+
+.bio-detail__face--right {
+  background: #a9bdb2;
+}
+
+.bio-detail__face--lid {
+  background: #f9fbfa;
+}
+
+.bio-detail__face--bottom {
+  --folded: rotateX(90deg);
+  top: calc(100% + 1px);
+  left: -1px;
+  transform-origin: top;
+}
+
+.bio-detail__ball,
+.bio-detail__ground {
+  position: absolute;
+  background: currentColor;
+}
+
+.bio-detail__ball {
+  bottom: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform-origin: center bottom;
+}
+
+.bio-detail__ground {
+  bottom: 5px;
+  width: 14px;
+  height: 1px;
+  border-radius: 1px;
+  opacity: 0.48;
+}
+
+.bio-detail__screen {
+  position: relative;
+  display: grid;
+  width: 18px;
+  height: 15px;
+  align-content: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+}
+
+.bio-detail__screen-line,
+.bio-detail__screen-panel,
+.bio-detail__screen-button {
+  border-radius: 1px;
+  background: currentColor;
+}
+
+.bio-detail__screen-line {
+  --apart: translate(-4px, -4px) rotate(-12deg);
+  width: 6px;
+  height: 1px;
+}
+
+.bio-detail__screen-panel {
+  --apart: translate(4px, -1px) rotate(12deg);
+  height: 3px;
+  background: #a9bdb2;
+}
+
+.bio-detail__screen-button {
+  --apart: translate(1px, 5px) rotate(-10deg);
+  position: relative;
+  width: 5px;
+  height: 2px;
+}
+
+.bio-detail__screen-button::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #fff;
+  content: "";
+  opacity: 0;
+}
+
+.home-collaboration {
+  display: grid;
+  justify-items: start;
+  gap: 20px;
+  padding-block: clamp(24px, 5vw, 48px);
+  border-block: 1px solid var(--line);
+}
+
+.home-collaboration h2 {
+  font-size: clamp(27px, 4vw, 36px);
+  line-height: 1.17;
+}
+
+.home-collaboration p {
+  max-width: 54ch;
+  font-size: clamp(18px, 2.1vw, 24px);
+  line-height: 1.35;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .bio-detail:active > span:first-child {
+    scale: 0.92;
+  }
+
+  .bio-detail.is-playing .bio-detail__card {
+    animation: bio-card-lift 520ms var(--motion-smooth);
+  }
+
+  .bio-detail.is-playing .bio-detail__card::after {
+    animation: bio-card-shine 520ms var(--motion-smooth);
+  }
+
+  .bio-detail.is-playing .bio-detail__cube {
+    animation: bio-cube-tilt 640ms var(--motion-sharp);
+  }
+
+  .bio-detail.is-playing .bio-detail__face {
+    animation: bio-cube-fold 640ms var(--motion-sharp);
+  }
+
+  .bio-detail.is-playing .bio-detail__ball {
+    animation: bio-ball-bounce 480ms var(--motion-sharp);
+  }
+
+  .bio-detail.is-playing .bio-detail__screen-line,
+  .bio-detail.is-playing .bio-detail__screen-panel,
+  .bio-detail.is-playing .bio-detail__screen-button {
+    animation: bio-screen-assemble 520ms var(--motion-smooth);
+  }
+
+  .bio-detail.is-playing .bio-detail__screen-button::after {
+    animation: bio-screen-shine 520ms var(--motion-smooth);
+  }
+
+  @keyframes bio-card-lift {
+    0%, 100% { transform: translateY(0) rotateZ(0) rotateY(0); }
+    52% { transform: perspective(80px) translateY(-5px) rotateZ(-12deg) rotateY(-32deg) scale(1.2); }
+  }
+
+  @keyframes bio-card-shine {
+    0%, 14% { transform: translateX(-100%); }
+    78%, 100% { transform: translateX(100%); }
+  }
+
+  @keyframes bio-cube-tilt {
+    0%, 100% { transform: rotateX(54deg) rotateZ(-36deg); }
+    44%, 60% { transform: translateX(-4px) rotateX(0deg) rotateZ(0deg) scale(0.88); }
+  }
+
+  @keyframes bio-cube-fold {
+    0%, 100% { transform: var(--folded); }
+    44%, 60% { transform: rotateX(0deg); }
+  }
+
+  @keyframes bio-ball-bounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    13%, 77% { transform: translateY(0) scale(1.25, 0.64); }
+    27% { transform: translateY(-6px) scale(0.79, 1.21); }
+    46% { transform: translateY(-11px) scale(1); }
+    64% { transform: translateY(-5px) scale(0.9, 1.12); }
+    88% { transform: translateY(-2px) scale(0.95, 1.06); }
+  }
+
+  @keyframes bio-screen-assemble {
+    0%, 100% { transform: translate(0); opacity: 1; }
+    28% { transform: var(--apart); opacity: 0.68; }
+    67% { transform: translate(0); opacity: 1; }
+  }
+
+  @keyframes bio-screen-shine {
+    0%, 60%, 100% { opacity: 0; }
+    72% { opacity: 0.9; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bio-detail.is-playing::before {
+    animation: bio-detail-highlight var(--motion-fast) var(--motion-smooth);
+  }
+
+  @keyframes bio-detail-highlight {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+}
