@@ -4,8 +4,9 @@ document.querySelectorAll('[data-work-stack]').forEach(stack => {
   const title = stack.querySelector('[data-stack-title]');
   const next = stack.querySelector('[data-stack-next]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const slideFraction = 0.13;
   let drag = null;
-  let throwing = false;
+  let reordering = false;
 
   const clamp = (value, min, max) => Math.max(min, Math.min(value, max));
 
@@ -14,6 +15,7 @@ document.querySelectorAll('[data-work-stack]').forEach(stack => {
     card.style.removeProperty('--drag-x');
     card.style.removeProperty('--drag-y');
     card.style.removeProperty('--drag-angle');
+    card.style.removeProperty('--drag-scale');
   }
 
   function showCard(card, position) {
@@ -27,7 +29,7 @@ document.querySelectorAll('[data-work-stack]').forEach(stack => {
   }
 
   async function advance(direction = 1, verticalOffset = 0) {
-    if (throwing || drag) return;
+    if (reordering || drag) return;
 
     const front = cards.shift();
     cards.push(front);
@@ -38,31 +40,43 @@ document.querySelectorAll('[data-work-stack]').forEach(stack => {
       return;
     }
 
-    throwing = true;
-    front.classList.add('is-throwing');
-    front.setAttribute('aria-hidden', 'true');
-    const flight = front.animate([
-      { transform: getComputedStyle(front).transform, opacity: 1 },
-      {
-        transform: `translate(calc(-50% + ${direction * stage.clientWidth * 0.88}px), calc(-50% + ${verticalOffset}px)) rotate(${direction * 24}deg) scale(.96)`,
-        opacity: 0,
-      },
-    ], { duration: 300, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'forwards' });
+    reordering = true;
+    front.classList.add('is-reordering');
+    const slideX = direction * stage.clientWidth * slideFraction;
+    const slideY = stage.clientWidth * 0.045 + verticalOffset * 0.25;
+    const sidePosition = `translate(calc(-50% + ${slideX}px), calc(-50% + ${slideY}px)) rotate(${direction * 7}deg) scale(.92)`;
+    const easing = 'cubic-bezier(.22, 1, .36, 1)';
+    let movement;
 
-    cards.slice(0, -1).forEach(showCard);
     try {
-      await flight.finished;
-    } finally {
+      movement = front.animate([
+        { transform: getComputedStyle(front).transform },
+        { transform: sidePosition },
+      ], { duration: 155, easing, fill: 'forwards' });
+      await movement.finished;
+
+      // Swap layers at the outer edge so the card slides behind the new top.
       resetDrag(front);
-      showCard(front, cards.length - 1);
-      flight.cancel();
-      front.classList.remove('is-throwing');
-      throwing = false;
+      cards.forEach(showCard);
+      movement.cancel();
+      movement = front.animate([
+        { transform: sidePosition },
+        { transform: getComputedStyle(front).transform },
+      ], { duration: 285, easing });
+      await movement.finished;
+    } catch (error) {
+      if (error.name !== 'AbortError') throw error;
+    } finally {
+      movement?.cancel();
+      resetDrag(front);
+      if (front.dataset.position !== String(cards.length - 1)) cards.forEach(showCard);
+      front.classList.remove('is-reordering');
+      reordering = false;
     }
   }
 
   stage.addEventListener('pointerdown', event => {
-    if (throwing || drag || !event.isPrimary || event.button !== 0) return;
+    if (reordering || drag || !event.isPrimary || event.button !== 0) return;
     if (event.target.closest('.work-stack__card') !== cards[0]) return;
 
     drag = { id: event.pointerId, x: event.clientX, y: event.clientY, time: event.timeStamp };
@@ -76,9 +90,15 @@ document.querySelectorAll('[data-work-stack]').forEach(stack => {
     const x = event.clientX - drag.x;
     const y = event.clientY - drag.y;
     const card = cards[0];
-    card.style.setProperty('--drag-x', `${clamp(x, -stage.clientWidth / 2, stage.clientWidth / 2)}px`);
-    card.style.setProperty('--drag-y', `${clamp(y * 0.6, -60, 60)}px`);
-    card.style.setProperty('--drag-angle', `${reducedMotion.matches ? 0 : clamp(x / 11, -20, 20)}deg`);
+    const slideLimit = Math.max(1, stage.clientWidth * slideFraction);
+    const offset = clamp(x, -slideLimit, slideLimit);
+    const turn = offset / slideLimit;
+    const lift = reducedMotion.matches ? 0 : Math.abs(turn) * 0.08;
+    const verticalLimit = stage.clientHeight * 0.10;
+    card.style.setProperty('--drag-x', `${offset}px`);
+    card.style.setProperty('--drag-y', `${clamp(y * 0.6, -verticalLimit, verticalLimit)}px`);
+    card.style.setProperty('--drag-angle', `${reducedMotion.matches ? 0 : turn * 7}deg`);
+    card.style.setProperty('--drag-scale', 1 - lift);
   });
 
   function endDrag(event) {
@@ -88,7 +108,7 @@ document.querySelectorAll('[data-work-stack]').forEach(stack => {
     const y = event.clientY - drag.y;
     const distance = Math.abs(x);
     const flick = distance > 28 && event.timeStamp - drag.time < 160;
-    const draggedFar = distance > clamp(stage.clientWidth * 0.18, 48, 90);
+    const draggedFar = distance > clamp(stage.clientWidth * 0.115, 32, 74);
     const tap = Math.hypot(x, y) < 8;
     drag = null;
 
