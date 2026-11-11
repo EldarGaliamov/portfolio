@@ -5,8 +5,8 @@
 .bio-detail {
   position: relative;
   display: inline-grid;
-  width: 40px;
-  height: 30px;
+  width: clamp(44px, 4vw, 50px);
+  height: 34px;
   margin-inline-start: 3px;
   padding: 0;
   place-items: center;
@@ -29,7 +29,7 @@
 
 .bio-detail__card {
   position: relative;
-  width: 32px;
+  width: 40px;
   aspect-ratio: 182 / 114;
   overflow: hidden;
   border-radius: 2px;
@@ -48,26 +48,31 @@
 .bio-detail__cube,
 .bio-detail__face {
   position: absolute;
-  width: 14px;
-  height: 14px;
+  width: var(--cube-edge);
+  height: var(--cube-edge);
   transform-style: preserve-3d;
 }
 
 .bio-detail__cube {
+  --cube-edge: 20px;
+  --cube-depth: calc(var(--cube-edge) / 2);
+  --cube-open-depth: calc(var(--cube-edge) * 0.8);
+  --cube-face-light: #bcbcbc;
+  --cube-face-mid: #626262;
+  --cube-face-dark: #383838;
   transform: rotateX(-28deg) rotateY(37deg);
 }
 
 .bio-detail__face {
   inset: 0;
   border: 1px solid var(--ink);
-  background: #dce4e0;
+  background: var(--cube-face-mid);
   backface-visibility: hidden;
-  transform: var(--face-rotation) translateZ(7px);
+  transform: var(--face-rotation) translateZ(var(--cube-depth));
 }
 
 .bio-detail__face--front {
   --face-rotation: rotateY(0deg);
-  background: #eff4f1;
 }
 
 .bio-detail__face--back {
@@ -76,27 +81,28 @@
 
 .bio-detail__face--top {
   --face-rotation: rotateX(90deg);
-  background: #f9fbfa;
+  background: var(--cube-face-light);
 }
 
 .bio-detail__face--left {
   --face-rotation: rotateY(-90deg);
-  background: #bfd0c7;
+  background: var(--cube-face-dark);
 }
 
 .bio-detail__face--right {
   --face-rotation: rotateY(90deg);
-  background: #a9bdb2;
+  background: var(--cube-face-dark);
 }
 
 .bio-detail__face--bottom {
   --face-rotation: rotateX(-90deg);
-  background: #a9bdb2;
+  background: var(--cube-face-dark);
 }
 
 .bio-detail__orbit {
   position: absolute;
-  inset: 0;
+  width: 40px;
+  height: 30px;
 }
 
 .bio-detail__ball,
@@ -107,69 +113,87 @@
 }
 
 .bio-detail__ball {
-  bottom: 8px;
-  left: calc(50% - 7px);
-  width: 14px;
-  height: 14px;
+  top: calc(50% - 9px);
+  left: calc(50% - 9px);
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
 }
 
 .bio-detail__trail {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #468a72;
   opacity: 0;
 }
 
 .bio-detail__trail--far {
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
 }
 
 .bio-detail__ground {
   bottom: 6px;
-  width: 22px;
+  width: 27px;
   height: 1px;
   border-radius: 1px;
   opacity: 0.48;
 }
 
 .bio-detail__screen {
+  --screen-copy: #e3e3e3;
+  --screen-panel: #797979;
+  --screen-action: #a8dc38;
   position: relative;
   display: grid;
-  width: 30px;
-  height: 22px;
+  width: 40px;
+  height: 29px;
   align-content: center;
   gap: 2px;
-  padding: 2px;
-  border: 1px solid currentColor;
-  border-radius: 3px;
+  padding: 6px 4px 3px;
+  overflow: hidden;
+  border-radius: 5px;
+  background: var(--ink);
+}
+
+.bio-detail__screen::before {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: var(--screen-copy);
+  box-shadow: 4px 0 var(--screen-copy);
+  content: "";
 }
 
 .bio-detail__screen-line,
 .bio-detail__screen-panel,
 .bio-detail__screen-button {
   border-radius: 1px;
-  background: currentColor;
 }
 
 .bio-detail__screen-line {
-  width: 10px;
+  width: 15px;
   height: 2px;
+  background: var(--screen-copy);
 }
 
 .bio-detail__screen-panel {
   --draw-delay: 50ms;
-  height: 5px;
-  background: #a9bdb2;
+  height: 6px;
+  background: var(--screen-panel);
 }
 
 .bio-detail__screen-button {
   --draw-delay: 105ms;
   position: relative;
-  width: 9px;
-  height: 4px;
+  width: 13px;
+  height: 5px;
+  border-radius: 2px;
+  background: var(--screen-action);
 }
 
 .bio-detail__screen-button::after {
@@ -183,12 +207,12 @@
 
 .bio-detail__scanner {
   position: absolute;
-  top: 2px;
+  top: 4px;
   right: 1px;
   left: 1px;
   height: 3px;
   border-radius: 1px;
-  background: linear-gradient(90deg, transparent, #397860, transparent);
+  background: linear-gradient(90deg, transparent, var(--screen-action), transparent);
   opacity: 0;
 }
 
@@ -460,8 +484,8 @@
   }
 
   @keyframes bio-cube-explode {
-    0%, 100% { transform: var(--face-rotation) translateZ(7px); }
-    45% { transform: var(--face-rotation) translateZ(12px); }
+    0%, 100% { transform: var(--face-rotation) translateZ(var(--cube-depth)); }
+    45% { transform: var(--face-rotation) translateZ(var(--cube-open-depth)); }
   }
 
   @keyframes bio-dot-orbit {
@@ -491,7 +515,7 @@
     0%, 14% { transform: translateY(0); opacity: 0; }
     26% { opacity: 0.95; }
     78% { opacity: 0.85; }
-    96%, 100% { transform: translateY(14px); opacity: 0; }
+    96%, 100% { transform: translateY(18px); opacity: 0; }
   }
 
   @keyframes bio-screen-shine {
