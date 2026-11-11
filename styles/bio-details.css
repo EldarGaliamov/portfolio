@@ -99,6 +99,13 @@
   --cube-glass-tint: var(--cube-glass-side);
 }
 
+.bio-detail--orbit {
+  --ball-light: #c3d9e8;
+  --ball-mid: #52788d;
+  --ball-dark: #203b50;
+  --ball-bounce-duration: 760ms;
+}
+
 .bio-detail__orbit {
   position: absolute;
   width: 40px;
@@ -106,8 +113,7 @@
 }
 
 .bio-detail__ball,
-.bio-detail__ground,
-.bio-detail__trail {
+.bio-detail__ground {
   position: absolute;
 }
 
@@ -117,21 +123,8 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: radial-gradient(circle at 32% 27%, var(--page) 4%, var(--panel) 19%, var(--muted) 48%, var(--ink) 84%);
-  box-shadow: inset 0 0 0 1px rgb(45 45 45 / 35%);
-}
-
-.bio-detail__trail {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--muted);
-  opacity: 0;
-}
-
-.bio-detail__trail--far {
-  width: 5px;
-  height: 5px;
+  background: radial-gradient(circle at 32% 27%, var(--page) 3%, var(--ball-light) 17%, var(--ball-mid) 49%, var(--ball-dark) 85%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ball-dark) 34%, transparent);
 }
 
 .bio-detail__ground {
@@ -139,7 +132,7 @@
   width: 19px;
   height: 3px;
   border-radius: 50%;
-  background: var(--ink);
+  background: var(--ball-dark);
   opacity: 0.28;
 }
 
@@ -459,25 +452,18 @@
     --cube-spoke-direction: rotateZ(90deg) rotateY(90deg);
   }
 
-  .bio-detail.is-playing :is(.bio-detail__ball, .bio-detail__trail) {
+  .bio-detail.is-playing .bio-detail__ball {
     inset: 0 auto auto 0;
-    offset-path: path("M 20 15 C 9 20 3 7 12 -1 C 21 -9 37 -3 33 8 C 31 15 24 20 20 15");
+    offset-path: path("M 20 15 C 21 -7 29 -10 33 15 C 31 5 24 3 20 15");
+    offset-anchor: center;
     offset-rotate: 0deg;
-    animation: bio-dot-orbit 620ms var(--motion-sharp) both,
-      bio-dot-shape 620ms var(--motion-sharp);
-  }
-
-  .bio-detail.is-playing .bio-detail__trail {
-    animation: bio-dot-orbit 620ms var(--motion-sharp) 55ms both,
-      bio-trail-fade 620ms var(--motion-sharp) 55ms both;
-  }
-
-  .bio-detail.is-playing .bio-detail__trail--far {
-    animation-delay: 100ms;
+    transform-origin: center bottom;
+    animation: bio-ball-path var(--ball-bounce-duration) linear both,
+      bio-ball-squash var(--ball-bounce-duration) var(--motion-sharp);
   }
 
   .bio-detail.is-playing .bio-detail__ground {
-    animation: bio-dot-shadow 620ms var(--motion-sharp);
+    animation: bio-ball-shadow var(--ball-bounce-duration) var(--motion-sharp);
   }
 
   .bio-detail.is-playing .bio-detail__screen-line,
@@ -522,27 +508,33 @@
     40%, 62% { transform: var(--cube-spoke-direction) scaleX(1); opacity: 1; }
   }
 
-  @keyframes bio-dot-orbit {
-    from { offset-distance: 0%; }
-    to { offset-distance: 100%; }
+  @keyframes bio-ball-path {
+    0% { offset-distance: 0%; }
+    9% { offset-distance: 0%; animation-timing-function: cubic-bezier(0.18, 0.54, 0.45, 1); }
+    31% { offset-distance: 31.47%; animation-timing-function: cubic-bezier(0.55, 0, 0.8, 0.54); }
+    54% { offset-distance: 63.71%; }
+    60% { offset-distance: 63.71%; animation-timing-function: cubic-bezier(0.18, 0.54, 0.45, 1); }
+    74% { offset-distance: 81.55%; animation-timing-function: cubic-bezier(0.55, 0, 0.8, 0.54); }
+    90%, 100% { offset-distance: 100%; }
   }
 
-  @keyframes bio-dot-shape {
-    0%, 100% { transform: scale(1); }
-    12% { transform: scale(1.16, 0.84); }
-    45% { transform: scale(1.05); }
-    88% { transform: scale(1.1, 0.9); }
+  @keyframes bio-ball-squash {
+    0%, 31%, 74%, 100% { transform: scale(1); }
+    9% { transform: scale(1.14, 0.8); }
+    17% { transform: scale(0.93, 1.09); }
+    53% { transform: scale(0.96, 1.06); }
+    60% { transform: scale(1.19, 0.77); }
+    65% { transform: scale(0.96, 1.04); }
+    92% { transform: scale(1.09, 0.88); }
   }
 
-  @keyframes bio-dot-shadow {
-    0%, 100% { transform: scaleX(1); opacity: 0.28; }
-    12% { transform: scaleX(1.1); opacity: 0.34; }
-    45%, 68% { transform: scaleX(0.62); opacity: 0.1; }
-  }
-
-  @keyframes bio-trail-fade {
-    0%, 100% { opacity: 0; }
-    30%, 72% { opacity: 0.7; }
+  @keyframes bio-ball-shadow {
+    0%, 100% { transform: translateX(0) scaleX(1); opacity: 0.28; }
+    9% { transform: translateX(0) scaleX(1.12); opacity: 0.34; }
+    31% { transform: translateX(5.6px) scaleX(0.64); opacity: 0.1; }
+    54%, 60% { transform: translateX(13px) scaleX(1.1); opacity: 0.33; }
+    74% { transform: translateX(6.9px) scaleX(0.81); opacity: 0.17; }
+    90% { transform: translateX(0) scaleX(1.06); opacity: 0.3; }
   }
 
   @keyframes bio-screen-draw {
