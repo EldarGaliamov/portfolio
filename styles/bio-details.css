@@ -56,17 +56,16 @@
 .bio-detail__cube {
   --cube-edge: 20px;
   --cube-depth: calc(var(--cube-edge) / 2);
-  --cube-open-depth: calc(var(--cube-edge) * 0.8);
-  --cube-face-light: #bcbcbc;
-  --cube-face-mid: #626262;
-  --cube-face-dark: #383838;
+  --cube-open-depth: calc(var(--cube-edge) * 0.96);
+  --cube-open-scale: 0.82;
+  --cube-side: #d6d6d6;
   transform: rotateX(-28deg) rotateY(37deg);
 }
 
 .bio-detail__face {
   inset: 0;
   border: 1px solid var(--ink);
-  background: var(--cube-face-mid);
+  background: var(--panel);
   backface-visibility: hidden;
   transform: var(--face-rotation) translateZ(var(--cube-depth));
 }
@@ -81,22 +80,22 @@
 
 .bio-detail__face--top {
   --face-rotation: rotateX(90deg);
-  background: var(--cube-face-light);
+  background: var(--page);
 }
 
 .bio-detail__face--left {
   --face-rotation: rotateY(-90deg);
-  background: var(--cube-face-dark);
+  background: var(--cube-side);
 }
 
 .bio-detail__face--right {
   --face-rotation: rotateY(90deg);
-  background: var(--cube-face-dark);
+  background: var(--cube-side);
 }
 
 .bio-detail__face--bottom {
   --face-rotation: rotateX(-90deg);
-  background: var(--cube-face-dark);
+  background: var(--cube-side);
 }
 
 .bio-detail__orbit {
@@ -109,7 +108,6 @@
 .bio-detail__ground,
 .bio-detail__trail {
   position: absolute;
-  background: currentColor;
 }
 
 .bio-detail__ball {
@@ -118,13 +116,15 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
+  background: radial-gradient(circle at 32% 27%, var(--page) 4%, var(--panel) 19%, var(--muted) 48%, var(--ink) 84%);
+  box-shadow: inset 0 0 0 1px rgb(45 45 45 / 35%);
 }
 
 .bio-detail__trail {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #468a72;
+  background: var(--muted);
   opacity: 0;
 }
 
@@ -134,11 +134,12 @@
 }
 
 .bio-detail__ground {
-  bottom: 6px;
-  width: 27px;
-  height: 1px;
-  border-radius: 1px;
-  opacity: 0.48;
+  bottom: 4px;
+  width: 19px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--ink);
+  opacity: 0.28;
 }
 
 .bio-detail__screen {
@@ -428,11 +429,34 @@
   }
 
   .bio-detail.is-playing .bio-detail__cube {
-    animation: bio-cube-spin 720ms var(--motion-sharp);
+    animation: bio-cube-spin 800ms var(--motion-sharp);
   }
 
   .bio-detail.is-playing .bio-detail__face {
-    animation: bio-cube-explode 720ms var(--motion-sharp);
+    backface-visibility: visible;
+    animation: bio-cube-explode 800ms var(--motion-sharp);
+  }
+
+  .bio-detail.is-playing .bio-detail__face::before,
+  .bio-detail.is-playing .bio-detail__face::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(var(--cube-open-depth) / var(--cube-open-scale));
+    height: 1px;
+    background: var(--muted);
+    content: "";
+    translate: 0 -50%;
+    transform-origin: left center;
+    animation: bio-cube-spoke 800ms var(--motion-sharp) both;
+  }
+
+  .bio-detail__face::before {
+    --cube-spoke-direction: rotateY(90deg);
+  }
+
+  .bio-detail__face::after {
+    --cube-spoke-direction: rotateZ(90deg) rotateY(90deg);
   }
 
   .bio-detail.is-playing :is(.bio-detail__ball, .bio-detail__trail) {
@@ -450,6 +474,10 @@
 
   .bio-detail.is-playing .bio-detail__trail--far {
     animation-delay: 100ms;
+  }
+
+  .bio-detail.is-playing .bio-detail__ground {
+    animation: bio-dot-shadow 620ms var(--motion-sharp);
   }
 
   .bio-detail.is-playing .bio-detail__screen-line,
@@ -478,14 +506,20 @@
   }
 
   @keyframes bio-cube-spin {
-    0% { transform: rotateX(-28deg) rotateY(37deg) scale(1); }
-    52% { transform: rotateX(-41deg) rotateY(211deg) scale(1.18); }
-    100% { transform: rotateX(-28deg) rotateY(397deg) scale(1); }
+    0% { transform: rotateX(-28deg) rotateY(37deg); }
+    40% { transform: rotateX(-34deg) rotateY(209deg); }
+    62% { transform: rotateX(-30deg) rotateY(230deg); }
+    100% { transform: rotateX(-28deg) rotateY(397deg); }
   }
 
   @keyframes bio-cube-explode {
-    0%, 100% { transform: var(--face-rotation) translateZ(var(--cube-depth)); }
-    45% { transform: var(--face-rotation) translateZ(var(--cube-open-depth)); }
+    0%, 100% { transform: var(--face-rotation) translateZ(var(--cube-depth)) scale(1); }
+    40%, 62% { transform: var(--face-rotation) translateZ(var(--cube-open-depth)) scale(var(--cube-open-scale)); }
+  }
+
+  @keyframes bio-cube-spoke {
+    0%, 100% { transform: var(--cube-spoke-direction) scaleX(0.43); opacity: 0; }
+    40%, 62% { transform: var(--cube-spoke-direction) scaleX(1); opacity: 1; }
   }
 
   @keyframes bio-dot-orbit {
@@ -498,6 +532,12 @@
     12% { transform: scale(1.16, 0.84); }
     45% { transform: scale(1.05); }
     88% { transform: scale(1.1, 0.9); }
+  }
+
+  @keyframes bio-dot-shadow {
+    0%, 100% { transform: scaleX(1); opacity: 0.28; }
+    12% { transform: scaleX(1.1); opacity: 0.34; }
+    45%, 68% { transform: scaleX(0.62); opacity: 0.1; }
   }
 
   @keyframes bio-trail-fade {
