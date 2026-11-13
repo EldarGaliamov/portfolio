@@ -1,9 +1,11 @@
 import { waapi } from './vendor/anime-waapi.min.js';
 
 const page = document.querySelector('[data-scroll-surface]');
-if (page) setupScrollBend(page, window.matchMedia('(prefers-reduced-motion: reduce)'));
+if (page && 'IntersectionObserver' in window) setupScrollBend(page);
 
-function setupScrollBend(page, motionPreference) {
+function setupScrollBend(page) {
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const desktopInput = window.matchMedia('(hover: hover) and (pointer: fine)');
   const surfaces = new Map();
   const visible = new Set();
   let screenLens;
@@ -32,8 +34,8 @@ function setupScrollBend(page, motionPreference) {
       const surface = surfaces.get(entry.target);
       if (entry.isIntersecting) {
         visible.add(surface);
-        if (!motionPreference.matches) {
-          surface.layers ??= createScrollFringes(surface.element);
+        if (!motionPreference.matches && desktopInput.matches) {
+          surface.layers ??= createScrollFringes(surface.element, true);
         }
       } else {
         visible.delete(surface);
@@ -50,7 +52,7 @@ function setupScrollBend(page, motionPreference) {
   }
 
   function clearSurface(surface) {
-    if (!surface.layers) return;
+    if (surface.painted === null) return;
     for (const layer of [...surface.layers.red, ...surface.layers.blue]) {
       layer.style.removeProperty('transform');
       layer.style.removeProperty('opacity');
@@ -66,7 +68,7 @@ function setupScrollBend(page, motionPreference) {
 
     for (const surface of visible) {
       if (surface.painted === value) continue;
-      surface.layers ??= createScrollFringes(surface.element);
+      surface.layers ??= createScrollFringes(surface.element, desktopInput.matches);
       for (const layer of surface.layers.red) {
         layer.style.transform = redOffset;
         layer.style.opacity = opacity;
@@ -108,7 +110,7 @@ function setupScrollBend(page, motionPreference) {
     release = settling;
     frame = lastFrame = 0;
 
-    if (lens > 0.02 || !red.length) {
+    if (lens > 0.02) {
       const fromLens = lens;
       const start = performance.now();
       const fadeLens = now => {
@@ -119,6 +121,9 @@ function setupScrollBend(page, motionPreference) {
         else if (release === settling && !settling.animations.length) reset();
       };
       lensFrame = requestAnimationFrame(fadeLens);
+    } else if (!red.length && !blue.length) {
+      reset();
+      return;
     }
 
     for (const [color, layers] of [['red', red], ['blue', blue]]) {
@@ -156,16 +161,16 @@ function setupScrollBend(page, motionPreference) {
 
     const smoothing = 1 - Math.exp(-elapsed / (target === 0 ? 95 : 45));
     bend += (target - bend) * smoothing;
-    lens += (Math.abs(target) - lens) * smoothing;
+    if (desktopInput.matches) lens += (Math.abs(target) - lens) * smoothing;
     paint(bend);
     screenLens?.paint(lens, scroll);
     frame = requestAnimationFrame(update);
   }
 
   window.addEventListener('scroll', () => {
-    if (motionPreference.matches || frame) return;
+    if (motionPreference.matches || document.hidden || frame) return;
 
-    screenLens ??= createScrollLens(page);
+    if (desktopInput.matches) screenLens ??= createScrollLens(page);
 
     if (release) {
       const progress = release.animations[0]?.animations[0]?.effect?.getComputedTiming().progress ?? 0;
@@ -178,6 +183,14 @@ function setupScrollBend(page, motionPreference) {
   }, { passive: true });
 
   motionPreference.addEventListener('change', reset);
+  desktopInput.addEventListener('change', () => {
+    reset();
+    for (const surface of surfaces.values()) {
+      if (!surface.layers) continue;
+      for (const layer of [...surface.layers.red, ...surface.layers.blue]) layer.remove();
+      surface.layers = null;
+    }
+  });
   window.addEventListener('pagehide', reset);
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) reset();
@@ -278,7 +291,7 @@ function createScrollLens(page) {
   return { paint, clear };
 }
 
-function createScrollFringes(surface) {
+function createScrollFringes(surface, includeImages) {
   const layers = { red: [], blue: [] };
   const titles = surface.matches('h1, h2, h3, p')
     ? [surface]
@@ -297,15 +310,20 @@ function createScrollFringes(surface) {
   }
 
   for (const title of titles) {
-    const original = document.createElement('span');
-    original.className = 'scroll-fringe-original';
-    original.append(...title.childNodes);
-    title.append(original);
-    title.classList.add('scroll-fringe-host');
+    let original = title.querySelector(':scope > .scroll-fringe-original');
+    if (!original) {
+      original = document.createElement('span');
+      original.className = 'scroll-fringe-original';
+      original.append(...title.childNodes);
+      title.append(original);
+      title.classList.add('scroll-fringe-host');
+    }
     addLayers(title, 'text', layer => {
       for (const child of original.childNodes) layer.append(child.cloneNode(true));
     });
   }
+
+  if (!includeImages) return layers;
 
   for (const preview of surface.querySelectorAll('.home-case-card__visual')) {
     const source = preview.querySelector('img')?.getAttribute('src');

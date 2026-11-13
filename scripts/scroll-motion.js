@@ -1,7 +1,7 @@
 (() => {
   if (typeof window.Lenis !== 'function') return;
 
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const smoothScroll = window.matchMedia('(prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine)');
   let lenis;
 
   function syncLightbox() {
@@ -10,7 +10,7 @@
   }
 
   function syncScrollPreference() {
-    if (reducedMotion.matches) {
+    if (!smoothScroll.matches) {
       lenis?.destroy();
       lenis = undefined;
       return;
@@ -28,7 +28,7 @@
   }
 
   syncScrollPreference();
-  reducedMotion.addEventListener('change', syncScrollPreference);
+  smoothScroll.addEventListener('change', syncScrollPreference);
   if (document.querySelector('.image-lightbox')) {
     new MutationObserver(syncLightbox).observe(document.body, { attributeFilter: ['class'] });
   }
