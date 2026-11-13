@@ -1,26 +1,30 @@
 const page = document.querySelector('[data-scroll-surface]');
-if (page && 'IntersectionObserver' in window) setupScrollBend(page);
+if (page && 'IntersectionObserver' in window) setupScrollEffects(page);
 
-function setupScrollBend(page) {
+function setupScrollEffects(page) {
   const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
   const desktopInput = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const paintInterval = 1000 / 30;
+  const isHome = page.matches('.portfolio-home');
   const textSelector = 'h1, h2, h3, .home-case-card__title, .home-competition-card__title, .home-footer__contact > p, .home-footer__copyright > p';
-  const selector = page.matches('.portfolio-home')
+  const selector = isHome
     ? '.home-hero, .home-collaboration, .home-competitions > h2, .home-case-card, .home-competition-card, .home-footer'
     : 'h1, h2, h3, .site-footer__copyright > p, .footer-contact__main > p';
   const surfaces = new Map();
   const visible = new Set();
-  let screenLens;
+  const homeLens = isHome ? createHomeLens(page) : null;
+  let svgLens;
   let frame = 0;
   let bend = 0;
   let lens = 0;
   let lastScroll = window.scrollY;
   let lastFrame = 0;
+  let lastPaint = -Infinity;
 
   for (const element of page.querySelectorAll(selector)) {
     surfaces.set(element, {
       titles: element.matches(textSelector) ? [element] : element.querySelectorAll(textSelector),
-      preview: element.querySelector('.home-case-card__object'),
+      image: element.querySelector('.home-case-card__object'),
       painted: 0,
     });
   }
@@ -28,7 +32,7 @@ function setupScrollBend(page) {
   function clearSurface(surface) {
     if (surface.painted === 0) return;
     for (const title of surface.titles) title.style.removeProperty('text-shadow');
-    surface.preview?.style.removeProperty('filter');
+    surface.image?.style.removeProperty('filter');
     surface.painted = 0;
   }
 
@@ -47,7 +51,7 @@ function setupScrollBend(page) {
   for (const element of surfaces.keys()) observer.observe(element);
 
   function paint(amount) {
-    const value = Math.round(amount * 100) / 100;
+    const value = Math.round(amount * 20) / 20;
     const opacity = Math.abs(value) * 0.65;
     const red = `0 ${(value * 4.8).toFixed(2)}px rgb(224 38 77 / ${opacity})`;
     const blue = `0 ${(value * -4.2).toFixed(2)}px rgb(0 136 233 / ${opacity})`;
@@ -60,9 +64,9 @@ function setupScrollBend(page) {
       }
 
       for (const title of surface.titles) title.style.textShadow = `${red}, ${blue}`;
-      if (surface.preview && desktopInput.matches) {
-        // The image's alpha channel defines the fringe, including when object-fit is contain.
-        surface.preview.style.filter = `drop-shadow(${red}) drop-shadow(${blue})`;
+      if (surface.image && desktopInput.matches) {
+        // The image's own alpha keeps the fringe within its visible shape.
+        surface.image.style.filter = `drop-shadow(${red}) drop-shadow(${blue})`;
       }
       surface.painted = value;
     }
@@ -71,8 +75,10 @@ function setupScrollBend(page) {
   function reset() {
     cancelAnimationFrame(frame);
     frame = lastFrame = bend = lens = 0;
+    lastPaint = -Infinity;
     lastScroll = window.scrollY;
-    screenLens?.clear();
+    svgLens?.clear();
+    homeLens?.clear();
     for (const surface of visible) clearSurface(surface);
   }
 
@@ -86,21 +92,34 @@ function setupScrollBend(page) {
     const target = Math.max(-1, Math.min(1, speed / 1.65));
     const smoothing = 1 - Math.exp(-elapsed / (target === 0 ? 95 : 45));
     bend += (target - bend) * smoothing;
+
     if (desktopInput.matches) lens += (Math.abs(target) - lens) * smoothing;
 
-    if (target === 0 && Math.abs(bend) < 0.005 && lens < 0.02) {
+    if (target === 0 && Math.abs(bend) < 0.025 && lens < 0.02) {
       reset();
       return;
     }
 
-    paint(bend);
-    screenLens?.paint(lens, scroll);
+    // Shadows repaint their content. Sample them separately from the scroll animation.
+    const paintFringe = now - lastPaint >= paintInterval - 1;
+    if (paintFringe) {
+      paint(bend);
+      lastPaint = now;
+    }
+
+    if (desktopInput.matches) {
+      if (homeLens) {
+        homeLens.paint(bend, lens, scroll);
+      } else if (paintFringe) {
+        svgLens ??= createScrollLens(page);
+        svgLens?.paint(lens, scroll);
+      }
+    }
     frame = requestAnimationFrame(update);
   }
 
   window.addEventListener('scroll', () => {
     if (motionPreference.matches || document.hidden || frame) return;
-    if (desktopInput.matches) screenLens ??= createScrollLens(page);
     frame = requestAnimationFrame(update);
   }, { passive: true });
 
@@ -110,6 +129,30 @@ function setupScrollBend(page) {
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) reset();
   });
+}
+
+function createHomeLens(page) {
+  let top;
+  let lastTransform = '';
+  window.addEventListener('resize', () => { top = undefined; }, { passive: true });
+
+  return {
+    clear() {
+      if (lastTransform) page.style.removeProperty('transform');
+      lastTransform = '';
+      top = undefined;
+    },
+    paint(direction, strength, scroll) {
+      top ??= page.getBoundingClientRect().top + scroll;
+      const skew = Math.round(direction * 210) / 10000;
+      const squeeze = 1 - Math.round(strength * 145) / 10000;
+      // Center the shear in the viewport without changing the page's scroll height.
+      const shift = Math.round(-skew * (scroll - top + innerHeight / 2) * 100) / 100;
+      const transform = `matrix(${squeeze}, 0, ${skew}, 1, ${shift}, 0) translateZ(0)`;
+      if (transform === lastTransform) return;
+      page.style.transform = lastTransform = transform;
+    },
+  };
 }
 
 function createScrollLens(page) {
@@ -189,7 +232,7 @@ function createScrollLens(page) {
     }
 
     // Keep the filter's raster region around the viewport as the document scrolls.
-    const top = Math.round((scroll - pageTop) / 4) * 4 - padding;
+    const top = Math.round((scroll - pageTop) / 16) * 16 - padding;
     if (regionTop !== top) {
       regionTop = top;
       filter.setAttribute('y', top);

@@ -18,7 +18,7 @@
 
     lenis ??= new window.Lenis({
       autoRaf: true,
-      lerp: 0.12,
+      lerp: document.querySelector('.portfolio-home') ? 0.2 : 0.12,
       syncTouch: false,
       anchors: true,
       allowNestedScroll: true,

@@ -1,5 +1,13 @@
 .portfolio-home {
   overflow: clip;
+  transform-origin: 50% 0;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .portfolio-home {
+    /* Keep the scrolling surface on the same layer before and during a gesture. */
+    transform: translateZ(0);
+  }
 }
 
 .home-header--main .home-header__panel::before {
