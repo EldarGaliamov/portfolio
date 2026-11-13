@@ -2,6 +2,10 @@
   background: #292929;
 }
 
+.home-case-card--locked .home-case-card__object {
+  opacity: 0.75;
+}
+
 .home-case-card__lock {
   position: absolute;
   inset: 0;
@@ -46,7 +50,8 @@
 }
 
 .home-case-card__lock .office-lock {
-  font-size: clamp(64px, 10vw, 132px);
+  font-size: clamp(44px, 7vw, 96px);
+  filter: drop-shadow(0 2px 6px rgb(0 0 0 / 65%));
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -181,13 +186,4 @@
 
 .office-access[hidden] {
   display: none;
-}
-
-@media (max-width: 1024px) {
-  .home-case-card__lock {
-    position: relative;
-    min-height: clamp(116px, 25vw, 220px);
-    order: 3;
-    grid-column: 1 / -1;
-  }
 }

@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="./styles/bio-details.css" />
     <link rel="stylesheet" href="./styles/home-motion.css" />
     <link rel="stylesheet" href="./styles/site-motion.css" />
-    <link rel="stylesheet" href="./styles/office-access.css" />
+    <link rel="stylesheet" href="./styles/office-access.css?v=office-preview" />
     <script src="./scripts/analytics.js" defer></script>
     <script src="./scripts/vendor/lenis.min.js" defer></script>
     <script src="./scripts/scroll-motion.js?v=7679832" defer></script>
@@ -99,13 +99,17 @@
         <section class="home-projects" aria-labelledby="projects-title">
           <h2 id="projects-title">Проекты <sup>4</sup></h2>
           <div class="home-projects__list">
-            <a class="home-case-card home-case-card--dark home-case-card--locked" href="./cases/office-assignment.html">
+            <a class="home-case-card home-case-card--image-bg home-case-card--dark home-case-card--office home-case-card--locked" href="./cases/office-assignment.html">
+              <img class="home-case-card__bg" src="./assets/figma/home-office-card-bg-blurred.webp" alt="" loading="lazy" decoding="async" />
+              <span class="home-case-card__visual" aria-hidden="true">
+                <img class="home-case-card__object" src="./assets/figma/home-office-card-ui-blurred.webp" alt="" loading="lazy" decoding="async" />
+                <span class="home-case-card__lock"><span class="office-lock"></span></span>
+              </span>
               <span class="home-case-card__title">
                 <span>Как я упростил поиск</span>
                 <span>и&nbsp;массовое закрепление менеджеров за&nbsp;отделениями</span>
               </span>
               <span class="home-case-card__year">2026</span>
-              <span class="home-case-card__lock" aria-hidden="true"><span class="office-lock"></span></span>
               <span class="home-case-card__button ui-button ui-button--l ui-button--white">Открыть по&nbsp;паролю</span>
             </a>
 
