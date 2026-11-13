@@ -14,18 +14,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles/site.css" />
-    <link rel="stylesheet" href="./scripts/vendor/lenis.css" />
     <link rel="stylesheet" href="./styles/bio-details.css" />
     <link rel="stylesheet" href="./styles/home-motion.css" />
-    <link rel="stylesheet" href="./styles/site-motion.css" />
+    <link rel="stylesheet" href="./styles/project-scroll.css" />
     <link rel="stylesheet" href="./styles/office-access.css?v=office-preview" />
     <script src="./scripts/analytics.js" defer></script>
-    <script src="./scripts/vendor/lenis.min.js" defer></script>
-    <script src="./scripts/scroll-motion.js?v=7679832" defer></script>
     <script src="./scripts/bio-details.js" defer></script>
     <script src="./scripts/work-stack.js" defer></script>
     <script src="./scripts/home-motion.js" type="module"></script>
-    <script src="./scripts/site-motion.js?v=7679832" type="module"></script>
     <script src="./scripts/vendor/gsap.min.js" defer></script>
     <script src="./scripts/vendor/ScrollTrigger.min.js" defer></script>
     <script src="./scripts/animations.js" defer></script>
@@ -46,55 +42,57 @@
       </div>
     </header>
 
-    <div class="portfolio-home" data-scroll-surface>
+    <div class="portfolio-home">
       <main class="home-main">
-        <section class="home-hero" aria-labelledby="home-title">
-          <div class="home-hero__photo home-portrait">
-            <img src="./assets/figma/home-logo.png" alt="Эльдар Галямов" />
-            <canvas class="home-portrait__canvas" aria-hidden="true"></canvas>
-          </div>
-          <div class="home-hero__title">
-            <h1 id="home-title">Эльдар Галямов</h1>
-            <p>Product designer</p>
-          </div>
-          <p class="home-hero__description">
-            Работаю в&nbsp;<a href="https://metasharks.ru/" target="_blank" rel="noopener noreferrer">Metasharks</a>, сейчас проектирую интерфейсы для&nbsp;крупной страховой компании. Разработал UX/UI сервиса подарочных карт универмага <span class="bio-detail-pair"><a href="https://tsvetnoy.com/cards" target="_blank" rel="noopener noreferrer">«Цветной»</a><button class="bio-detail bio-detail--card" type="button" aria-label="Оживить подарочную карту «Цветного»" hidden><span class="bio-detail__card" aria-hidden="true"></span></button>.</span>
-            Помимо&nbsp;интерфейсов, создаю <span class="bio-detail-pair">3D<button class="bio-detail bio-detail--cube" type="button" aria-label="Разобрать и собрать куб" hidden><span class="bio-detail__cube" aria-hidden="true">
-              <span class="bio-detail__face bio-detail__face--front"></span><span class="bio-detail__face bio-detail__face--back"></span><span class="bio-detail__face bio-detail__face--top"></span><span class="bio-detail__face bio-detail__face--bottom"></span><span class="bio-detail__face bio-detail__face--left"></span><span class="bio-detail__face bio-detail__face--right"></span>
-            </span></button></span> и&nbsp;<span class="bio-detail-pair">анимацию<button class="bio-detail bio-detail--orbit" type="button" aria-label="Подбросить шарик" hidden><span class="bio-detail__orbit" aria-hidden="true">
-              <span class="bio-detail__ball"></span>
-            </span><span class="bio-detail__ground" aria-hidden="true"></span></button>,</span>
-            собираю прототипы с&nbsp;помощью&nbsp;<span class="bio-detail-pair">ИИ<button class="bio-detail bio-detail--prototype" type="button" aria-label="Собрать мини-экран" hidden><span class="bio-detail__screen" aria-hidden="true"><span class="bio-detail__screen-line"></span><span class="bio-detail__screen-panel"></span><span class="bio-detail__screen-button"></span><span class="bio-detail__scanner"></span></span></button>.</span>
-          </p>
-          <p class="home-hero__meta">3 года опыта · Личные кабинеты · Бизнес-системы · Дизайн-системы</p>
-
-          <div class="partner-marquee" aria-label="Компании и проекты">
-            <div class="partner-marquee__track">
-              <span class="partner-logo partner-logo--delovie"><img src="./assets/figma/partner-delovie.svg" alt="Деловые линии" /></span>
-              <span class="partner-logo partner-logo--rosbank"><img src="./assets/figma/partner-rosbank.svg" alt="Росбанк Страхование" /></span>
-              <span class="partner-logo partner-logo--tsvetnoy"><img src="./assets/figma/partner-tsvetnoy.svg" alt="Цветной" /></span>
-              <span class="partner-logo partner-logo--iteko"><img src="./assets/figma/partner-iteko.svg" alt="Айтеко" /></span>
-              <span class="partner-logo partner-logo--allwin"><img src="./assets/figma/partner-allwin.svg" alt="Allwin" /></span>
-              <span class="partner-logo partner-logo--mafin"><img src="./assets/figma/partner-mafin.svg" alt="Mafin" /></span>
-              <span class="partner-logo partner-logo--alfastrah"><img src="./assets/figma/partner-alfastrah.svg" alt="Альфа Страхование Жизнь" /></span>
-              <span class="partner-logo partner-logo--k2cloud"><img src="./assets/figma/partner-k2cloud.svg" alt="K2 Cloud" /></span>
-              <span class="partner-logo partner-logo--absolut"><img src="./assets/figma/partner-absolut.svg" alt="Абсолют" /></span>
-              <span class="partner-logo partner-logo--orion"><img src="./assets/figma/partner-orion.svg" alt="Orion Soft" /></span>
-              <span class="partner-logo partner-logo--segmenta"><img src="./assets/figma/partner-segmenta.png" alt="Segmenta" /></span>
-              <span class="partner-logo partner-logo--delovie" aria-hidden="true"><img src="./assets/figma/partner-delovie.svg" alt="" /></span>
-              <span class="partner-logo partner-logo--rosbank" aria-hidden="true"><img src="./assets/figma/partner-rosbank.svg" alt="" /></span>
-              <span class="partner-logo partner-logo--tsvetnoy" aria-hidden="true"><img src="./assets/figma/partner-tsvetnoy.svg" alt="" /></span>
-              <span class="partner-logo partner-logo--iteko" aria-hidden="true"><img src="./assets/figma/partner-iteko.svg" alt="" /></span>
-              <span class="partner-logo partner-logo--allwin" aria-hidden="true"><img src="./assets/figma/partner-allwin.svg" alt="" /></span>
-              <span class="partner-logo partner-logo--mafin" aria-hidden="true"><img src="./assets/figma/partner-mafin.svg" alt="" /></span>
-              <span class="partner-logo partner-logo--alfastrah" aria-hidden="true"><img src="./assets/figma/partner-alfastrah.svg" alt="" /></span>
-              <span class="partner-logo partner-logo--k2cloud" aria-hidden="true"><img src="./assets/figma/partner-k2cloud.svg" alt="" /></span>
-              <span class="partner-logo partner-logo--absolut" aria-hidden="true"><img src="./assets/figma/partner-absolut.svg" alt="" /></span>
-              <span class="partner-logo partner-logo--orion" aria-hidden="true"><img src="./assets/figma/partner-orion.svg" alt="" /></span>
-              <span class="partner-logo partner-logo--segmenta" aria-hidden="true"><img src="./assets/figma/partner-segmenta.png" alt="" /></span>
+        <div class="home-hero-stage">
+          <section class="home-hero" aria-labelledby="home-title">
+            <div class="home-hero__photo home-portrait">
+              <img src="./assets/figma/home-logo.png" alt="Эльдар Галямов" />
+              <canvas class="home-portrait__canvas" aria-hidden="true"></canvas>
             </div>
-          </div>
-        </section>
+            <div class="home-hero__title">
+              <h1 id="home-title">Эльдар Галямов</h1>
+              <p>Product designer</p>
+            </div>
+            <p class="home-hero__description">
+              Работаю в&nbsp;<a href="https://metasharks.ru/" target="_blank" rel="noopener noreferrer">Metasharks</a>, сейчас проектирую интерфейсы для&nbsp;крупной страховой компании. Разработал UX/UI сервиса подарочных карт универмага <span class="bio-detail-pair"><a href="https://tsvetnoy.com/cards" target="_blank" rel="noopener noreferrer">«Цветной»</a><button class="bio-detail bio-detail--card" type="button" aria-label="Оживить подарочную карту «Цветного»" hidden><span class="bio-detail__card" aria-hidden="true"></span></button>.</span>
+              Помимо&nbsp;интерфейсов, создаю <span class="bio-detail-pair">3D<button class="bio-detail bio-detail--cube" type="button" aria-label="Разобрать и собрать куб" hidden><span class="bio-detail__cube" aria-hidden="true">
+                <span class="bio-detail__face bio-detail__face--front"></span><span class="bio-detail__face bio-detail__face--back"></span><span class="bio-detail__face bio-detail__face--top"></span><span class="bio-detail__face bio-detail__face--bottom"></span><span class="bio-detail__face bio-detail__face--left"></span><span class="bio-detail__face bio-detail__face--right"></span>
+              </span></button></span> и&nbsp;<span class="bio-detail-pair">анимацию<button class="bio-detail bio-detail--orbit" type="button" aria-label="Подбросить шарик" hidden><span class="bio-detail__orbit" aria-hidden="true">
+                <span class="bio-detail__ball"></span>
+              </span><span class="bio-detail__ground" aria-hidden="true"></span></button>,</span>
+              собираю прототипы с&nbsp;помощью&nbsp;<span class="bio-detail-pair">ИИ<button class="bio-detail bio-detail--prototype" type="button" aria-label="Собрать мини-экран" hidden><span class="bio-detail__screen" aria-hidden="true"><span class="bio-detail__screen-line"></span><span class="bio-detail__screen-panel"></span><span class="bio-detail__screen-button"></span><span class="bio-detail__scanner"></span></span></button>.</span>
+            </p>
+            <p class="home-hero__meta">3 года опыта · Личные кабинеты · Бизнес-системы · Дизайн-системы</p>
+
+            <div class="partner-marquee" aria-label="Компании и проекты">
+              <div class="partner-marquee__track">
+                <span class="partner-logo partner-logo--delovie"><img src="./assets/figma/partner-delovie.svg" alt="Деловые линии" /></span>
+                <span class="partner-logo partner-logo--rosbank"><img src="./assets/figma/partner-rosbank.svg" alt="Росбанк Страхование" /></span>
+                <span class="partner-logo partner-logo--tsvetnoy"><img src="./assets/figma/partner-tsvetnoy.svg" alt="Цветной" /></span>
+                <span class="partner-logo partner-logo--iteko"><img src="./assets/figma/partner-iteko.svg" alt="Айтеко" /></span>
+                <span class="partner-logo partner-logo--allwin"><img src="./assets/figma/partner-allwin.svg" alt="Allwin" /></span>
+                <span class="partner-logo partner-logo--mafin"><img src="./assets/figma/partner-mafin.svg" alt="Mafin" /></span>
+                <span class="partner-logo partner-logo--alfastrah"><img src="./assets/figma/partner-alfastrah.svg" alt="Альфа Страхование Жизнь" /></span>
+                <span class="partner-logo partner-logo--k2cloud"><img src="./assets/figma/partner-k2cloud.svg" alt="K2 Cloud" /></span>
+                <span class="partner-logo partner-logo--absolut"><img src="./assets/figma/partner-absolut.svg" alt="Абсолют" /></span>
+                <span class="partner-logo partner-logo--orion"><img src="./assets/figma/partner-orion.svg" alt="Orion Soft" /></span>
+                <span class="partner-logo partner-logo--segmenta"><img src="./assets/figma/partner-segmenta.png" alt="Segmenta" /></span>
+                <span class="partner-logo partner-logo--delovie" aria-hidden="true"><img src="./assets/figma/partner-delovie.svg" alt="" /></span>
+                <span class="partner-logo partner-logo--rosbank" aria-hidden="true"><img src="./assets/figma/partner-rosbank.svg" alt="" /></span>
+                <span class="partner-logo partner-logo--tsvetnoy" aria-hidden="true"><img src="./assets/figma/partner-tsvetnoy.svg" alt="" /></span>
+                <span class="partner-logo partner-logo--iteko" aria-hidden="true"><img src="./assets/figma/partner-iteko.svg" alt="" /></span>
+                <span class="partner-logo partner-logo--allwin" aria-hidden="true"><img src="./assets/figma/partner-allwin.svg" alt="" /></span>
+                <span class="partner-logo partner-logo--mafin" aria-hidden="true"><img src="./assets/figma/partner-mafin.svg" alt="" /></span>
+                <span class="partner-logo partner-logo--alfastrah" aria-hidden="true"><img src="./assets/figma/partner-alfastrah.svg" alt="" /></span>
+                <span class="partner-logo partner-logo--k2cloud" aria-hidden="true"><img src="./assets/figma/partner-k2cloud.svg" alt="" /></span>
+                <span class="partner-logo partner-logo--absolut" aria-hidden="true"><img src="./assets/figma/partner-absolut.svg" alt="" /></span>
+                <span class="partner-logo partner-logo--orion" aria-hidden="true"><img src="./assets/figma/partner-orion.svg" alt="" /></span>
+                <span class="partner-logo partner-logo--segmenta" aria-hidden="true"><img src="./assets/figma/partner-segmenta.png" alt="" /></span>
+              </div>
+            </div>
+          </section>
+        </div>
 
         <section class="home-projects" aria-labelledby="projects-title">
           <h2 id="projects-title">Проекты <sup>4</sup></h2>
