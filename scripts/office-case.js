@@ -83,6 +83,7 @@
     const modal = document.createElement("div");
     modal.className = "image-lightbox";
     modal.hidden = true;
+    modal.setAttribute("data-lenis-prevent", "");
     modal.setAttribute("role", "dialog");
     modal.setAttribute("aria-modal", "true");
     modal.setAttribute("aria-label", "Просмотр изображения");

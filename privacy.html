@@ -11,9 +11,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles/site.css" />
     <link rel="stylesheet" href="./scripts/vendor/lenis.css" />
+    <link rel="stylesheet" href="./styles/site-motion.css" />
     <script src="./scripts/analytics.js" defer></script>
     <script src="./scripts/vendor/lenis.min.js" defer></script>
     <script src="./scripts/scroll-motion.js" defer></script>
+    <script src="./scripts/site-motion.js" type="module"></script>
   </head>
   <body data-root-path=".">
     <header class="home-header home-header--case" aria-label="Основная навигация">
@@ -26,14 +28,14 @@
       </div>
     </header>
 
-    <main class="privacy-page">
+    <main class="privacy-page" data-scroll-surface>
       <article class="privacy-page__content">
         <p class="privacy-page__eyebrow">Информация для посетителей</p>
         <h1>Конфиденциальность</h1>
         <p>Сайт использует Яндекс Метрику только после вашего согласия. Аналитика помогает понять, какие страницы и кейсы посещают чаще, откуда приходят посетители и насколько удобно пользоваться сайтом.</p>
 
         <h2>Какие данные обрабатываются</h2>
-        <p>Метрика может получать технические сведения о браузере и устройстве, приблизительном местоположении, источнике перехода, просмотренных страницах, кликах и прокрутке. Форм на сайте нет, а содержимое писем и переписки не передаётся.</p>
+        <p>Метрика может получать технические сведения о браузере и устройстве, приблизительном местоположении, источнике перехода, просмотренных страницах, кликах и прокрутке. Пароль к кейсу проверяется в браузере и не отправляется на сервер. Содержимое писем и переписки не передаётся.</p>
 
         <h2>Для чего нужна аналитика</h2>
         <p>Данные используются только для улучшения портфолио: оценки интереса к кейсам, проверки навигации и понимания того, какие способы связи используют посетители.</p>

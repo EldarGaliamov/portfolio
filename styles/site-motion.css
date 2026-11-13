@@ -1,0 +1,44 @@
+.scroll-fringe-host {
+  isolation: isolate;
+}
+
+.scroll-fringe-host:not(.home-case-card__title, .home-competition-card__title) {
+  position: relative;
+}
+
+.scroll-fringe-original {
+  display: contents;
+}
+
+.scroll-fringe-layer {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.scroll-fringe-layer--red {
+  --fringe-color: #e0264d;
+}
+
+.scroll-fringe-layer--blue {
+  --fringe-color: #0088e9;
+}
+
+.scroll-fringe-layer--text {
+  display: inherit;
+  flex-direction: inherit;
+}
+
+.scroll-fringe-layer--text,
+.scroll-fringe-layer--text * {
+  -webkit-text-fill-color: var(--fringe-color);
+}
+
+.scroll-fringe-layer--image {
+  background: var(--fringe-color);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: cover;
+}

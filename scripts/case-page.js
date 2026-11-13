@@ -73,6 +73,7 @@
       </a>
     </header>
 
+    <div class="case-scroll" data-scroll-surface>
     <main class="case-page">
       <section class="project-hero">
         <div class="project-hero__copy">
@@ -392,6 +393,7 @@
       </div>
       ${img("home-footer-mark.svg", "Eldar.GLMV", "footer-mark")}
     </footer>
+    </div>
   `;
 
   initCaseMotion(root);
@@ -482,6 +484,7 @@
     const modal = document.createElement("div");
     modal.className = "image-lightbox";
     modal.hidden = true;
+    modal.setAttribute("data-lenis-prevent", "");
     modal.setAttribute("role", "dialog");
     modal.setAttribute("aria-modal", "true");
     modal.setAttribute("aria-label", "Просмотр изображения");

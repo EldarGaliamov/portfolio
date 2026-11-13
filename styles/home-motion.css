@@ -1,0 +1,48 @@
+.portfolio-home {
+  overflow: clip;
+}
+
+.home-header--main .home-header__panel::before {
+  backdrop-filter: none;
+  background: rgb(245 245 245 / 68%);
+}
+
+.home-hero .home-portrait {
+  position: relative;
+  width: clamp(174px, 17vw, 212px);
+  height: auto;
+  aspect-ratio: 1;
+  overflow: visible;
+  border-radius: 0;
+  background: transparent;
+}
+
+.home-portrait > img {
+  display: block;
+  object-fit: contain;
+}
+
+.home-portrait__canvas {
+  --particle-bleed: 28px;
+  position: absolute;
+  inset: calc(-1 * var(--particle-bleed));
+  display: block;
+  width: calc(100% + 2 * var(--particle-bleed));
+  height: calc(100% + 2 * var(--particle-bleed));
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.home-portrait[data-rendering] > img {
+  opacity: 0;
+}
+
+.home-portrait[data-rendering] .home-portrait__canvas {
+  visibility: visible;
+}
+
+@media (max-width: 760px) {
+  .home-hero .home-portrait {
+    width: clamp(142px, 34vw, 174px);
+  }
+}

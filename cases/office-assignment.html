@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Как я упростил поиск и массовое закрепление менеджеров за отделениями | Eldar Galiamov</title>
+    <link rel="icon" href="../assets/icons/favicon.ico" sizes="any" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles/site.css" />
+    <link rel="stylesheet" href="../styles/office-access.css" />
+    <link rel="stylesheet" href="../scripts/vendor/lenis.css" />
+    <link rel="stylesheet" href="../styles/site-motion.css" />
+    <script src="../scripts/vendor/lenis.min.js" defer></script>
+    <script src="../scripts/scroll-motion.js" defer></script>
+    <script src="../scripts/site-motion.js" type="module"></script>
+    <script src="../scripts/office-access.js" type="module"></script>
+  </head>
+  <body>
+    <main class="office-access" data-scroll-surface>
+      <a class="office-access__back" href="../index.html#projects-title">← Все проекты</a>
+      <section class="office-access__panel" aria-labelledby="office-access-title">
+        <span class="office-access__badge" aria-hidden="true"><span class="office-lock"></span></span>
+        <h1 id="office-access-title">Как я упростил поиск и&nbsp;массовое закрепление менеджеров за&nbsp;отделениями</h1>
+        <form class="office-access__form">
+          <label for="office-password">Пароль к кейсу</label>
+          <input id="office-password" type="password" autocomplete="current-password" aria-describedby="office-access-status" required disabled />
+          <p id="office-access-status" role="status"></p>
+          <button class="ui-button ui-button--m ui-button--black" type="submit" disabled>Открыть кейс</button>
+        </form>
+        <noscript><p>Включите JavaScript, чтобы открыть кейс.</p></noscript>
+      </section>
+    </main>
+    <iframe class="office-access__case" title="Закрепление менеджеров за офисами" referrerpolicy="no-referrer" allowfullscreen hidden></iframe>
+  </body>
+</html>

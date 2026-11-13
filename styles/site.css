@@ -38,6 +38,11 @@ body {
   text-rendering: geometricPrecision;
 }
 
+html.lenis body:not(.is-lightbox-open) {
+  /* Horizontal clipping must not make the body a nested scroll container for Lenis. */
+  overflow-x: clip;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -1179,7 +1184,11 @@ li {
   margin: 64px auto 0;
 }
 
-.home-header + .case-page {
+.case-scroll {
+  display: flow-root;
+}
+
+.home-header + .case-scroll > .case-page {
   margin-top: 136px;
 }
 
@@ -2614,6 +2623,12 @@ h3,
   color: #676767;
 }
 
+.office-embed-link {
+  align-self: flex-start;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 .office-embed {
   height: 512px;
   overflow: hidden;
@@ -2706,9 +2721,6 @@ h3,
 
 .office-result-card {
   border-width: 8px;
-  background:
-    linear-gradient(#fff, #fff) padding-box,
-    url("../assets/office-case/result-border.png") center / cover border-box;
 }
 
 .motion-reveal {
@@ -3349,7 +3361,7 @@ h3,
     margin-top: 128px;
   }
 
-  .home-header + .case-page {
+  .home-header + .case-scroll > .case-page {
     margin-top: 128px;
   }
 
@@ -4350,6 +4362,8 @@ h3,
 
   .privacy-page h1 {
     margin-bottom: 36px;
+    font-size: clamp(32px, 10vw, 48px);
+    overflow-wrap: anywhere;
   }
 
   .privacy-page h2 {

@@ -1,0 +1,193 @@
+.home-case-card--locked {
+  background: #292929;
+}
+
+.home-case-card__lock {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #e9e9e9;
+}
+
+.office-lock {
+  position: relative;
+  display: block;
+  width: 1em;
+  height: 0.77em;
+  margin-top: 0.45em;
+  border: 0.08em solid currentColor;
+  border-radius: 0.2em;
+}
+
+.office-lock::before {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 0.57em;
+  height: 0.52em;
+  border: 0.08em solid currentColor;
+  border-bottom: 0;
+  border-radius: 0.4em 0.4em 0 0;
+  content: "";
+  transform: translateX(-50%);
+}
+
+.office-lock::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.09em;
+  height: 0.22em;
+  border-radius: 1em;
+  background: currentColor;
+  content: "";
+  transform: translate(-50%, -50%);
+}
+
+.home-case-card__lock .office-lock {
+  font-size: clamp(64px, 10vw, 132px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .home-case-card__lock .office-lock::before {
+    transform: none;
+    transform-origin: 90% 100%;
+    translate: -50% var(--lock-lift, 0);
+    rotate: var(--lock-swing, 0deg);
+    transition:
+      translate var(--motion-normal) var(--motion-sharp) var(--lock-lift-delay, 90ms),
+      rotate var(--motion-slow) var(--motion-sharp) var(--lock-swing-delay, 0ms);
+  }
+
+  .home-case-card__lock .office-lock::after {
+    transform: translate(-50%, -50%) rotate(var(--lock-keyhole-angle, 0deg));
+    transition: transform var(--motion-fast) var(--motion-smooth) var(--lock-keyhole-delay, 120ms);
+  }
+
+  .home-case-card--locked:focus-visible .office-lock {
+    --lock-keyhole-angle: 75deg;
+    --lock-lift: -0.14em;
+    --lock-swing: 34deg;
+    --lock-keyhole-delay: 0ms;
+    --lock-lift-delay: 55ms;
+    --lock-swing-delay: 105ms;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .home-case-card--locked:hover .office-lock {
+      --lock-keyhole-angle: 75deg;
+      --lock-lift: -0.14em;
+      --lock-swing: 34deg;
+      --lock-keyhole-delay: 0ms;
+      --lock-lift-delay: 55ms;
+      --lock-swing-delay: 105ms;
+    }
+  }
+}
+
+.office-access {
+  display: grid;
+  min-height: 100svh;
+  justify-items: center;
+  align-content: center;
+  gap: 24px;
+  padding: 24px;
+}
+
+.office-access__panel {
+  width: min(100%, 480px);
+}
+
+.office-access__back {
+  font-weight: 500;
+}
+
+.office-access__panel {
+  padding: clamp(24px, 6vw, 48px);
+  border-radius: var(--radius);
+  background: #f5f5f5;
+}
+
+.office-access__badge {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  margin-bottom: 20px;
+  border-radius: 14px;
+  background: #fff;
+  font-size: 20px;
+}
+
+.office-access__panel h1 {
+  color: var(--ink);
+  font-size: clamp(24px, 5vw, 36px);
+  font-weight: 500;
+  line-height: 1.12;
+}
+
+.office-access__form {
+  display: grid;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.office-access__form label {
+  font-weight: 500;
+}
+
+.office-access__form input {
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+}
+
+.office-access__form input[aria-invalid="true"] {
+  border-color: #a82222;
+}
+
+.office-access__form [role="status"] {
+  min-height: 20px;
+  font-size: 14px;
+}
+
+.office-access__form input[aria-invalid="true"] + [role="status"] {
+  color: #a82222;
+}
+
+.office-access__form button {
+  justify-self: start;
+  border: 0;
+}
+
+.office-access__form button:disabled {
+  opacity: 0.65;
+}
+
+.office-access__case {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.office-access[hidden] {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .home-case-card__lock {
+    position: relative;
+    min-height: clamp(116px, 25vw, 220px);
+    order: 3;
+    grid-column: 1 / -1;
+  }
+}
