@@ -1,0 +1,111 @@
+.home-hero__details {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: inherit;
+}
+
+.home-projects {
+  position: relative;
+  margin-top: clamp(32px, 6svh, 64px);
+}
+
+@media (min-width: 1025px) {
+  .home-projects.home-projects__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-projects__item:not(.home-projects__item--square) {
+    grid-column: 1 / -1;
+  }
+
+  .home-projects__item--square .home-case-card {
+    display: grid;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 1;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
+    gap: 12px 16px;
+    padding: clamp(24px, 2.5vw, 32px);
+  }
+
+  .home-projects__item--square :is(
+    .home-case-card__title,
+    .home-case-card__year,
+    .home-case-card__visual,
+    .home-case-card__description,
+    .home-case-card__button
+  ) {
+    position: relative;
+    inset: auto;
+    width: auto;
+  }
+
+  .home-projects__item--square .home-case-card__year {
+    justify-self: end;
+  }
+
+  .home-projects__item--square .home-case-card__visual {
+    height: auto;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    transform: none;
+  }
+
+  .home-projects__item--square .home-case-card__object {
+    object-fit: contain;
+  }
+
+  .home-projects__item--square .home-case-card__description {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+
+  .home-projects__item--square .home-case-card__button {
+    grid-column: 1 / -1;
+    grid-row: 4;
+    justify-self: end;
+  }
+
+  .home-projects__item--square .home-case-card--dark .home-case-card__title span:last-child {
+    color: rgb(255 255 255 / 80%);
+  }
+}
+
+[data-project-motion] .home-hero {
+  position: relative;
+  transform-origin: center 35%;
+}
+
+[data-project-motion] .home-projects {
+  z-index: 1;
+  margin-top: clamp(-88px, -10svh, -36px);
+  pointer-events: none;
+}
+
+@media (max-width: 760px) {
+  [data-project-motion] .home-projects {
+    margin-top: -40px;
+  }
+
+  [data-project-motion] .home-case-card {
+    pointer-events: auto;
+  }
+}
+
+[data-project-motion] .home-hero:has(:focus-visible) {
+  z-index: 2;
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}
+
+[data-project-motion] .home-hero:has(:focus-visible) .home-hero__details,
+[data-project-motion] .home-case-card:focus-visible {
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}

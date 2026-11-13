@@ -1,32 +1,35 @@
-import { waapi } from './vendor/anime-waapi.min.js';
-
 const page = document.querySelector('[data-scroll-surface]');
 if (page && 'IntersectionObserver' in window) setupScrollBend(page);
 
 function setupScrollBend(page) {
   const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
   const desktopInput = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const textSelector = 'h1, h2, h3, .home-case-card__title, .home-competition-card__title, .home-footer__contact > p, .home-footer__copyright > p';
+  const selector = page.matches('.portfolio-home')
+    ? '.home-hero, .home-collaboration, .home-competitions > h2, .home-case-card, .home-competition-card, .home-footer'
+    : 'h1, h2, h3, .site-footer__copyright > p, .footer-contact__main > p';
   const surfaces = new Map();
   const visible = new Set();
   let screenLens;
-  const fringeOpacity = 0.65;
-  const supportsWAAPI = typeof page.animate === 'function';
-  const ease = getComputedStyle(page).getPropertyValue('--motion-smooth').trim();
   let frame = 0;
-  let lensFrame = 0;
   let bend = 0;
   let lens = 0;
-  let release;
   let lastScroll = window.scrollY;
   let lastFrame = 0;
-  let lastMotion = 0;
 
-  const elements = page.querySelectorAll(page.matches('.portfolio-home')
-    ? '.home-hero, .home-collaboration, .home-projects > h2, .home-competitions > h2, .home-case-card, .home-competition-card, .home-footer'
-    : 'h1, h2, h3, .site-footer__copyright > p, .footer-contact__main > p');
+  for (const element of page.querySelectorAll(selector)) {
+    surfaces.set(element, {
+      titles: element.matches(textSelector) ? [element] : element.querySelectorAll(textSelector),
+      preview: element.querySelector('.home-case-card__object'),
+      painted: 0,
+    });
+  }
 
-  for (const element of elements) {
-    surfaces.set(element, { element, layers: null, painted: null });
+  function clearSurface(surface) {
+    if (surface.painted === 0) return;
+    for (const title of surface.titles) title.style.removeProperty('text-shadow');
+    surface.preview?.style.removeProperty('filter');
+    surface.painted = 0;
   }
 
   const observer = new IntersectionObserver(entries => {
@@ -34,9 +37,6 @@ function setupScrollBend(page) {
       const surface = surfaces.get(entry.target);
       if (entry.isIntersecting) {
         visible.add(surface);
-        if (!motionPreference.matches && desktopInput.matches) {
-          surface.layers ??= createScrollFringes(surface.element, true);
-        }
       } else {
         visible.delete(surface);
         clearSurface(surface);
@@ -44,99 +44,36 @@ function setupScrollBend(page) {
     }
   }, { rootMargin: '80px 0px' });
 
-  for (const element of elements) observer.observe(element);
-
-  function fringeTransform(amount, color) {
-    const distance = color === 'red' ? 4.8 : -4.2;
-    return `translate3d(0, ${amount * distance}px, 0)`;
-  }
-
-  function clearSurface(surface) {
-    if (surface.painted === null) return;
-    for (const layer of [...surface.layers.red, ...surface.layers.blue]) {
-      layer.style.removeProperty('transform');
-      layer.style.removeProperty('opacity');
-    }
-    surface.painted = null;
-  }
+  for (const element of surfaces.keys()) observer.observe(element);
 
   function paint(amount) {
-    const value = Math.round(amount * 500) / 500;
-    const opacity = Math.abs(value) * fringeOpacity;
-    const redOffset = fringeTransform(value, 'red');
-    const blueOffset = fringeTransform(value, 'blue');
+    const value = Math.round(amount * 100) / 100;
+    const opacity = Math.abs(value) * 0.65;
+    const red = `0 ${(value * 4.8).toFixed(2)}px rgb(224 38 77 / ${opacity})`;
+    const blue = `0 ${(value * -4.2).toFixed(2)}px rgb(0 136 233 / ${opacity})`;
 
     for (const surface of visible) {
       if (surface.painted === value) continue;
-      surface.layers ??= createScrollFringes(surface.element, desktopInput.matches);
-      for (const layer of surface.layers.red) {
-        layer.style.transform = redOffset;
-        layer.style.opacity = opacity;
+      if (value === 0) {
+        clearSurface(surface);
+        continue;
       }
-      for (const layer of surface.layers.blue) {
-        layer.style.transform = blueOffset;
-        layer.style.opacity = opacity;
+
+      for (const title of surface.titles) title.style.textShadow = `${red}, ${blue}`;
+      if (surface.preview && desktopInput.matches) {
+        // The image's alpha channel defines the fringe, including when object-fit is contain.
+        surface.preview.style.filter = `drop-shadow(${red}) drop-shadow(${blue})`;
       }
       surface.painted = value;
     }
   }
 
-  function cancelRelease() {
-    cancelAnimationFrame(lensFrame);
-    lensFrame = 0;
-    if (!release) return;
-    const { animations } = release;
-    release = undefined;
-    for (const animation of animations) animation.cancel();
-  }
-
   function reset() {
     cancelAnimationFrame(frame);
-    cancelRelease();
-    frame = lastFrame = lastMotion = bend = lens = 0;
+    frame = lastFrame = bend = lens = 0;
     lastScroll = window.scrollY;
     screenLens?.clear();
-    for (const surface of surfaces.values()) clearSurface(surface);
-  }
-
-  function settle() {
-    paint(bend);
-    const onscreen = Array.from(visible);
-    const red = onscreen.flatMap(surface => surface.layers.red);
-    const blue = onscreen.flatMap(surface => surface.layers.blue);
-    const from = onscreen[0]?.painted ?? 0;
-    const options = { duration: 340, ease };
-    const settling = { animations: [], from };
-    release = settling;
-    frame = lastFrame = 0;
-
-    if (lens > 0.02) {
-      const fromLens = lens;
-      const start = performance.now();
-      const fadeLens = now => {
-        const remaining = Math.max(0, 1 - (now - start) / options.duration);
-        lens = fromLens * remaining ** 3;
-        screenLens?.paint(lens, window.scrollY);
-        if (lens > 0.02) lensFrame = requestAnimationFrame(fadeLens);
-        else if (release === settling && !settling.animations.length) reset();
-      };
-      lensFrame = requestAnimationFrame(fadeLens);
-    } else if (!red.length && !blue.length) {
-      reset();
-      return;
-    }
-
-    for (const [color, layers] of [['red', red], ['blue', blue]]) {
-      if (!layers.length) continue;
-      settling.animations.push(waapi.animate(layers, {
-        ...options,
-        transform: [fringeTransform(from, color), fringeTransform(0, color)],
-        opacity: [Math.abs(from) * fringeOpacity, 0],
-        onComplete: () => {
-          if (color === 'red' && release === settling) reset();
-        }
-      }));
-    }
+    for (const surface of visible) clearSurface(surface);
   }
 
   function update(now) {
@@ -147,21 +84,15 @@ function setupScrollBend(page) {
     lastFrame = now;
 
     const target = Math.max(-1, Math.min(1, speed / 1.65));
-    if (target !== 0) lastMotion = now;
-    if (target === 0 && now - lastMotion >= 76) {
-      if (Math.abs(bend) < 0.005 && lens < 0.02) {
-        reset();
-        return;
-      }
-      if (supportsWAAPI) {
-        settle();
-        return;
-      }
-    }
-
     const smoothing = 1 - Math.exp(-elapsed / (target === 0 ? 95 : 45));
     bend += (target - bend) * smoothing;
     if (desktopInput.matches) lens += (Math.abs(target) - lens) * smoothing;
+
+    if (target === 0 && Math.abs(bend) < 0.005 && lens < 0.02) {
+      reset();
+      return;
+    }
+
     paint(bend);
     screenLens?.paint(lens, scroll);
     frame = requestAnimationFrame(update);
@@ -169,28 +100,12 @@ function setupScrollBend(page) {
 
   window.addEventListener('scroll', () => {
     if (motionPreference.matches || document.hidden || frame) return;
-
     if (desktopInput.matches) screenLens ??= createScrollLens(page);
-
-    if (release) {
-      const progress = release.animations[0]?.animations[0]?.effect?.getComputedTiming().progress ?? 0;
-      bend = release.from * (1 - progress);
-      cancelRelease();
-      for (const surface of visible) surface.painted = NaN;
-    }
-
     frame = requestAnimationFrame(update);
   }, { passive: true });
 
   motionPreference.addEventListener('change', reset);
-  desktopInput.addEventListener('change', () => {
-    reset();
-    for (const surface of surfaces.values()) {
-      if (!surface.layers) continue;
-      for (const layer of [...surface.layers.red, ...surface.layers.blue]) layer.remove();
-      surface.layers = null;
-    }
-  });
+  desktopInput.addEventListener('change', reset);
   window.addEventListener('pagehide', reset);
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) reset();
@@ -289,49 +204,4 @@ function createScrollLens(page) {
   resize();
   window.addEventListener('resize', resize);
   return { paint, clear };
-}
-
-function createScrollFringes(surface, includeImages) {
-  const layers = { red: [], blue: [] };
-  const titles = surface.matches('h1, h2, h3, p')
-    ? [surface]
-    : surface.querySelectorAll('h1, h2, .home-case-card__title, .home-competition-card__title, .home-footer__contact > p, .home-footer__copyright > p');
-
-  function addLayers(host, kind, content) {
-    for (const color of ['red', 'blue']) {
-      const layer = document.createElement('span');
-      layer.className = `scroll-fringe-layer scroll-fringe-layer--${kind} scroll-fringe-layer--${color}`;
-      layer.setAttribute('aria-hidden', 'true');
-      layer.inert = true;
-      content(layer);
-      host.append(layer);
-      layers[color].push(layer);
-    }
-  }
-
-  for (const title of titles) {
-    let original = title.querySelector(':scope > .scroll-fringe-original');
-    if (!original) {
-      original = document.createElement('span');
-      original.className = 'scroll-fringe-original';
-      original.append(...title.childNodes);
-      title.append(original);
-      title.classList.add('scroll-fringe-host');
-    }
-    addLayers(title, 'text', layer => {
-      for (const child of original.childNodes) layer.append(child.cloneNode(true));
-    });
-  }
-
-  if (!includeImages) return layers;
-
-  for (const preview of surface.querySelectorAll('.home-case-card__visual')) {
-    const source = preview.querySelector('img')?.getAttribute('src');
-    if (!source) continue;
-    addLayers(preview, 'image', layer => {
-      layer.style.maskImage = `url(${JSON.stringify(source)})`;
-    });
-  }
-
-  return layers;
 }
