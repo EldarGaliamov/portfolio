@@ -4,6 +4,7 @@ if (page && 'IntersectionObserver' in window) setupScrollEffects(page);
 function setupScrollEffects(page) {
   const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
   const desktopInput = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const touchInput = window.matchMedia('(hover: none) and (pointer: coarse)');
   const paintInterval = 1000 / 30;
   const isHome = page.matches('.portfolio-home');
   const textSelector = 'h1, h2, h3, .home-case-card__title, .home-competition-card__title, .home-footer__contact > p, .home-footer__copyright > p';
@@ -119,12 +120,13 @@ function setupScrollEffects(page) {
   }
 
   window.addEventListener('scroll', () => {
-    if (motionPreference.matches || document.hidden || frame) return;
+    if (motionPreference.matches || (isHome && touchInput.matches) || document.hidden || frame) return;
     frame = requestAnimationFrame(update);
   }, { passive: true });
 
   motionPreference.addEventListener('change', reset);
   desktopInput.addEventListener('change', reset);
+  touchInput.addEventListener('change', reset);
   window.addEventListener('pagehide', reset);
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) reset();
