@@ -1,83 +1,24 @@
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) and (animation-range: entry 0% entry 80%) {
-    .home-hero-stage {
-      --hero-travel: clamp(96px, 18svh, 172px);
-      margin-bottom: calc(-1 * var(--hero-travel) - clamp(32px, 5svh, 56px));
-    }
-
-    .home-hero-stage::after {
-      display: block;
-      height: var(--hero-travel);
-      content: "";
-    }
-
-    .home-hero-stage .home-hero {
-      position: sticky;
-      top: clamp(12px, calc(100svh - 720px), 112px);
-      transform-origin: center 20%;
-      animation: bio-collapse linear both;
-      animation-timeline: scroll(root block);
-      animation-range: 24px clamp(260px, 49svh, 420px);
-    }
-
-    .home-projects {
-      position: relative;
-      z-index: 1;
-      background: var(--page);
-    }
-
-    .home-projects .home-case-card {
-      animation: project-rise linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 82%;
-    }
-
-    .home-hero-stage .home-hero:has(:focus-visible),
-    .home-projects .home-case-card:focus {
-      animation: none;
-    }
-
-    .home-hero-stage:has(:focus-visible) {
-      position: relative;
-      z-index: 2;
-    }
-
-    @media (max-height: 680px), (max-width: 360px) {
-      .home-hero-stage {
-        --hero-travel: 0px;
-      }
-
-      .home-hero-stage .home-hero {
-        position: static;
-        animation-range: 140px 460px;
-      }
-    }
-  }
+.home-main[data-parallax] .home-hero-stage {
+  margin-bottom: clamp(-56px, -5svh, -32px);
 }
 
-@keyframes bio-collapse {
-  65% {
-    opacity: 0.82;
-  }
-
-  to {
-    transform: scale(0.76);
-    opacity: 0.28;
-  }
+.home-main[data-parallax] .home-hero {
+  transform-origin: center 20%;
 }
 
-@keyframes project-rise {
-  from {
-    transform: translateY(clamp(64px, 12svh, 120px)) scale(0.95);
-    opacity: 0.35;
-  }
+.home-main[data-parallax] .home-projects {
+  position: relative;
+  z-index: 1;
+  background: var(--page);
+}
 
-  65% {
-    opacity: 0.94;
-  }
+.home-main[data-parallax] .home-hero-stage:has(:focus-visible) {
+  position: relative;
+  z-index: 2;
+}
 
-  to {
-    transform: none;
-    opacity: 1;
-  }
+.home-main[data-parallax] .home-hero:has(:focus-visible),
+.home-main[data-parallax] .home-case-card:focus-visible {
+  transform: none !important;
+  opacity: 1 !important;
 }
